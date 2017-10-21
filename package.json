@@ -27,6 +27,7 @@
     "eslint-plugin-react": "^7.4.0"
   },
   "dependencies": {
+    "dotenv": "^4.0.0",
     "pg": "7.3.0"
   }
 }
