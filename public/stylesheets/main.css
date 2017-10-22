@@ -10,7 +10,12 @@ body {
 }
 
 #landing-header h1 {
-  color: #fff;
+  color: #eaecef;
+  font-size: 6em;
+}
+
+#landing-button {
+  font-size: 2em;
 }
 
 .slideshow {
