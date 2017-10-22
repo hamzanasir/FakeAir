@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
+app.use(express.static(`${__dirname}/public`));
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
@@ -20,5 +21,5 @@ app.get('/', (req, res) => {
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
-  console.log('The FakeAir Server Has Started!');
+  console.log('The FakeAir Server Has Started!'); // eslint-disable-line no-console
 });
