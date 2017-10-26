@@ -30,7 +30,7 @@ app.get('/', (req, res) => {
 app.get('/admin', (req, res) => {
   if (!req.session.auth) {
     if (req.session.userid !== process.env.ADMINU || req.session.password !== process.env.ADMINP) {
-      res.render('login');
+      res.redirect('/login');
     } else {
       res.render('admin');
     }
