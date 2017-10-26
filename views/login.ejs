@@ -1,0 +1,28 @@
+<% include partials/header %>
+
+<div id='loginModal' class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Admin Login</h5>
+      </div>
+      <div class="modal-body">
+        <form action="/login" method="post">
+          <div class="form-group">
+            <label>UserID</label>
+            <input class="form-control" name="userid" aria-describedby="emailHelp" placeholder="Enter UserID">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password" class="form-control" placeholder="Password">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-primary" value="Submit Button">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include partials/footer %>
