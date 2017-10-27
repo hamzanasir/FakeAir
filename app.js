@@ -35,10 +35,6 @@ app.get('/admin', (req, res) => {
   }
 });
 
-app.post('/admin', (req, res) => {
-  console.log(req.body);
-});
-
 app.get('/login', (req, res) => {
   res.render('login');
 });
