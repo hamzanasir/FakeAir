@@ -1,5 +1,65 @@
 <% include partials/header %>
 
-<h1>LOGIN SUCESS!</h1>
+<div class="container">
+  <div id="admin-row" class="row">
+    <div class="col-sm-2 col-md-2"></div>
+    <div class="col-sm-8 col-md-8">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">
+        Add Airport
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Airport</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin" method="post">
+                <div class="form-row">
+                  <div class="form-group col-md-2">
+                    <label for="iata">IATA</label>
+                    <input name="airport[iata]" type="text" class="form-control" id="iata" placeholder="IATA">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="country">Country</label>
+                    <input name="airport[country]" type="text" class="form-control" id="country" placeholder="Country">
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="state">State</label>
+                    <input name="airport[state]" type="text" class="form-control" id="state" placeholder="State">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="city">City</label>
+                    <input name="airport[city]" type="text" class="form-control" id="city" placeholder="City">
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="longitude">Longitude</label>
+                    <input name="airport[longitude]" type="text" class="form-control" id="longitude" placeholder="Longitude">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="latitude">Latitude</label>
+                    <input name="airport[latitude]" type="text" class="form-control" id="latitude" placeholder="Latitude">
+                  </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2 col-md-2"></div>
+  </div>
+</div>
 
 <% include partials/footer %>
