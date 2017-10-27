@@ -54,6 +54,53 @@
               <button type="submit" class="btn btn-primary">Save changes</button>
               </form>
             </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-2 col-md-2"></div>
+  </div>
+
+
+
+  <div id="admin-row" class="row">
+    <div class="col-sm-2 col-md-2"></div>
+    <div class="col-sm-8 col-md-8">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal1">
+        Add Airline
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Airline</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin" method="post">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="code">Code</label>
+                    <input name="airline[code]" type="text" class="form-control" id="code" placeholder="Code">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="name-airline">Name of Airline</label>
+                    <input name="airline[name-airline]" type="text" class="form-control" id="name-airline" placeholder="Name of Airline">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="country-origin">Country of Origin</label>
+                    <input name="airline[country-origin]" type="text" class="form-control" id="country-origin" placeholder="Country of Origin">
+                  </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+              </form>
+            </div>
           </div>
         </div>
       </div>
@@ -61,5 +108,143 @@
     <div class="col-sm-2 col-md-2"></div>
   </div>
 </div>
+</div>
 
+
+  <div id="admin-row" class="row">
+    <div class="col-sm-2 col-md-2"></div>
+    <div class="col-sm-8 col-md-8">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal2">
+        Add Flight
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Airport</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form action="/admin" method="post">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="code">Code</label>
+                    <input name="flight[code]" type="text" class="form-control" id="code" placeholder="Code">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="number">Number</label>
+                    <input name="flight[number]" type="text" class="form-control" id="number" placeholder="Number">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="date">Date</label>
+                    <input name="flight[date]" type="date" class="form-control" id="date" placeholder="Date">
+                  </div>
+                </div>
+               <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="departure-airport">Departure Airport</label>
+                    <input name="flight[departure-airport]" type="text" class="form-control" id="departure-airport" placeholder="Departure Airport">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="arrival-airport">Arrival Airport</label>
+                    <input name="flight[arrival-airport]" type="text" class="form-control" id="arrival-airport" placeholder="Arrival Airport">
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="departure-time">Departure Time</label>
+                    <input name="flight[departure-time]" type="time" class="form-control" id="departure-time" placeholder="Departure Time">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="arrival-time">Arrival Time</label>
+                    <input name="flight[arrival-time]" type="time" class="form-control" id="arrival-time" placeholder="Arrival Time">
+                  </div>
+               </div>
+               <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="econ-cap">Max Cap(Economy)</label>
+                    <input name="flight[econ-cap]" type="int" class="form-control" id="econ-cap" placeholder="Max Cap(Economy)">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="first-cap">Max Cap(First Class)</label>
+                    <input name="flight[first-cap]" type="int" class="form-control" id="first-cap" placeholder="Max Cap(First Class)">
+                  </div>
+                </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save changes</button>
+              </form>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-2 col-md-2"></div>
+      </div>
+  </div>
+</div>
+
+
+<div id="admin-row" class="row">
+  <div class="col-sm-2 col-md-2"></div>
+  <div class="col-sm-8 col-md-8">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal3">
+      Add Price
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Airline</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/admin" method="post">
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="code">Code</label>
+                  <input name="price[code]" type="text" class="form-control" id="code" placeholder="Code">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="number">Number</label>
+                  <input name="price[number]" type="int" class="form-control" id="number" placeholder="Number">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="date">Date</label>
+                  <input name="price[date]" type="date" class="form-control" id="date" placeholder="Date">
+                </div>
+                <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="class">Class</label>
+                  <input name="price[class]" type="text" class="form-control" id="class" placeholder="Class">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="cost">Price</label>
+                  <input name="price[cost]" type="double" class="form-control" id="cost" placeholder="Price">
+                </div>
+              </div>
+              </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2 col-md-2"></div>
+</div>
+</div>
+</div>
+
+</div>
 <% include partials/footer %>
