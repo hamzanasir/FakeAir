@@ -166,15 +166,29 @@
                   </div>
                </div>
                <div class="form-row">
-                  <div class="form-group col-md-6">
-                    <label for="econ-cap">Max Cap(Economy)</label>
+                  <div class="form-group col-md-4">
+                    <label for="econ-cap">Econ Seats</label>
                     <input name="flight[econ-cap]" type="int" class="form-control" id="econ-cap" placeholder="Max Cap(Economy)">
                   </div>
-                  <div class="form-group col-md-6">
-                    <label for="first-cap">Max Cap(First Class)</label>
+                  <div class="form-group col-md-4">
+                    <label for="first-cap">First Steats</label>
                     <input name="flight[first-cap]" type="int" class="form-control" id="first-cap" placeholder="Max Cap(First Class)">
                   </div>
+                  <div class="form-group col-md-4">
+                    <label for="first-cap">Miles</label>
+                    <input name="flight[miles]" type="double" class="form-control" id="miles" placeholder="Miles">
+                  </div>
                 </div>
+               <div class="form-row">
+                 <div class="form-group col-md-6">
+                   <label for="code">First Class</label>
+                   <input name="flight[firstclass]" type="double" class="form-control" id="fc-price" placeholder="Price">
+                 </div>
+                 <div class="form-group col-md-6">
+                   <label for="class">Economy Class</label>
+                   <input name="flight[econclass]" type="double" class="form-control" id="ec-price" placeholder="Price">
+                 </div>
+               </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Save changes</button>
               </form>
@@ -186,63 +200,6 @@
       <div class="col-sm-2 col-md-2"></div>
       </div>
   </div>
-</div>
-
-
-<div id="admin-row" class="row">
-  <div class="col-sm-2 col-md-2"></div>
-  <div class="col-sm-8 col-md-8">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#exampleModal3">
-      Add Price
-    </button>
-
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Airline</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form action="/admin" method="post">
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="code">Code</label>
-                  <input name="price[code]" type="text" class="form-control" id="code" placeholder="Code">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="number">Number</label>
-                  <input name="price[number]" type="int" class="form-control" id="number" placeholder="Number">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="date">Date</label>
-                  <input name="price[date]" type="date" class="form-control" id="date" placeholder="Date">
-                </div>
-                <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="class">Class</label>
-                  <input name="price[class]" type="text" class="form-control" id="class" placeholder="Class">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="cost">Price</label>
-                  <input name="price[cost]" type="double" class="form-control" id="cost" placeholder="Price">
-                </div>
-              </div>
-              </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save changes</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-sm-2 col-md-2"></div>
-</div>
 </div>
 </div>
 
