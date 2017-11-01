@@ -17,6 +17,7 @@ app.use(express.static(`${__dirname}/public`));
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
+  ssl: true,
 });
 
 app.get('/', (req, res) => {
