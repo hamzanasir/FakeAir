@@ -2,6 +2,7 @@
 
 $(document).ready(() => {
   $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+
   $('#miles').focusout((e) => {
     const miles = parseInt(e.target.value, 10);
     const baseFare = 50 + (miles * 0.11);
@@ -19,6 +20,7 @@ $(document).ready(() => {
           $('#city').val(airportData.city);
           $('#longitude').val(airportData.lon);
           $('#latitude').val(airportData.lat);
+          $('#name').val(airportData.name);
         }
       });
     });

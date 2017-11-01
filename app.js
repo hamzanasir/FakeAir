@@ -19,10 +19,6 @@ const client = new Client({
   connectionString: process.env.DATABASE_URL,
 });
 
-client.connect();
-
-client.end();
-
 app.get('/', (req, res) => {
   res.render('landing');
 });
@@ -33,6 +29,33 @@ app.get('/admin', (req, res) => {
   } else {
     res.render('admin');
   }
+});
+
+app.post('/admin', (req, res) => {
+  client.connect();
+  const data = req.body;
+  if (data) {
+    if (data.airport) {
+      const airp = data.airport; // object destructuring not yet supported by node
+      const query = 'INSERT INTO airport VALUES ($1, $2, $3, $4, $5, $6, $7)';
+      const values = [
+        airp.iata,
+        airp.country,
+        airp.state,
+        airp.city,
+        airp.name,
+        airp.longitude,
+        airp.latitude,
+      ];
+      client.query(query, values, (err) => {
+        if (err) {
+          console.log(err.stack); // eslint-disable-line no-console
+        }
+        client.end();
+      });
+    }
+  }
+  res.redirect('/admin');
 });
 
 app.get('/login', (req, res) => {
