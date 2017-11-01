@@ -1,3 +1,7 @@
 #admin-row {
   margin-top: 6vh;
 }
+
+#flashMessage {
+  margin-top: 18px;
+}

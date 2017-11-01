@@ -3,6 +3,7 @@ const { Client } = require('pg');
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 const app = express();
 app.use(session({
@@ -12,12 +13,15 @@ app.use(session({
   cookie: { maxAge: 60000 },
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
 app.set('view engine', 'ejs');
 app.use(express.static(`${__dirname}/public`));
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true,
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  res.locals.error = req.flash('error');
+  res.locals.success = req.flash('success');
+  next();
 });
 
 app.get('/', (req, res) => {
@@ -33,6 +37,10 @@ app.get('/admin', (req, res) => {
 });
 
 app.post('/admin', (req, res) => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: true,
+  });
   client.connect();
   const data = req.body;
   if (data) {
@@ -50,13 +58,17 @@ app.post('/admin', (req, res) => {
       ];
       client.query(query, values, (err) => {
         if (err) {
+          req.flash('error', 'Error: Could not add to database.');
+          res.redirect('/admin');
           console.log(err.stack); // eslint-disable-line no-console
+        } else {
+          req.flash('success', 'Successfully added to Database!');
+          res.redirect('/admin');
         }
         client.end();
       });
     }
   }
-  res.redirect('/admin');
 });
 
 app.get('/login', (req, res) => {
