@@ -140,7 +140,13 @@
                 <div class="form-row">
                   <div class="form-group col-md-4">
                     <label for="code">Code</label>
-                    <input name="flight[code]" type="text" class="form-control" id="code" placeholder="Code">
+                    <select name="flight[code]" class="form-control" id="flightcode">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                      <option>5</option>
+                    </select>
                   </div>
                   <div class="form-group col-md-3">
                     <label for="number">Number</label>
@@ -153,12 +159,20 @@
                 </div>
                <div class="form-row">
                   <div class="form-group col-md-6">
-                    <label for="departure-airport">Departure Airport</label>
-                    <input name="flight[departure-airport]" type="text" class="form-control" id="departure-airport" placeholder="Departure Airport">
+                    <label for="departure-airport">Departure airport</label>
+                    <select name="flight[departure-airport]" class="form-control" id="departure-airport">
+                      <% airportcodes.forEach(function(code) { %>
+                        <option><%= code.iata %></option>
+                      <% }); %>
+                    </select>
                   </div>
                   <div class="form-group col-md-6">
                     <label for="arrival-airport">Arrival Airport</label>
-                    <input name="flight[arrival-airport]" type="text" class="form-control" id="arrival-airport" placeholder="Arrival Airport">
+                    <select name="flight[arrival-airport]" class="form-control" id="arrival-airport">
+                      <% airportcodes.forEach(function(code) { %>
+                        <option><%= code.iata %></option>
+                      <% }); %>
+                    </select>
                   </div>
                </div>
                <div class="form-row">

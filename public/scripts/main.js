@@ -25,4 +25,15 @@ $(document).ready(() => {
       });
     });
   });
+
+  $('#code').focusout((e) => {
+    $.getJSON('/scripts/airlines.json', (json) => {
+      $.each(json, (airline, data) => {
+        if (data.IATA === e.target.value.toUpperCase()) {
+          $('#code').val(e.target.value.toUpperCase());
+          $('#name-airline').val(data.name);
+        }
+      });
+    });
+  });
 });

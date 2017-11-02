@@ -32,7 +32,21 @@ app.get('/admin', (req, res) => {
   if (req.session.userid !== process.env.ADMINU || req.session.password !== process.env.ADMINP) {
     res.redirect('/login');
   } else {
-    res.render('admin');
+    const client = new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: true,
+    });
+    client.connect();
+    const query = 'SELECT iata FROM airport';
+    client.query(query, (err, result) => {
+      if (err) {
+        console.log(err.stack); // eslint-disable-line no-console
+        res.render('admin');
+      } else {
+        res.render('admin', { airportcodes: result.rows });
+      }
+      client.end();
+    });
   }
 });
 
@@ -55,6 +69,27 @@ app.post('/admin', (req, res) => {
         airp.name,
         airp.longitude,
         airp.latitude,
+      ];
+      client.query(query, values, (err) => {
+        if (err) {
+          req.flash('error', 'Error: Could not add to database.');
+          res.redirect('/admin');
+          console.log(err.stack); // eslint-disable-line no-console
+        } else {
+          req.flash('success', 'Successfully added to Database!');
+          res.redirect('/admin');
+        }
+        client.end();
+      });
+    }
+
+    if (data.airline) {
+      const airl = data.airline; // object destructuring not yet supported by node
+      const query = 'INSERT INTO airline VALUES ($1, $2, $3)';
+      const values = [
+        airl.code,
+        airl['name-airline'],
+        airl['country-origin'],
       ];
       client.query(query, values, (err) => {
         if (err) {
