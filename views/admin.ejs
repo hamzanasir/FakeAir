@@ -141,11 +141,9 @@
                   <div class="form-group col-md-4">
                     <label for="code">Code</label>
                     <select name="flight[code]" class="form-control" id="flightcode">
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                      <option>5</option>
+                      <% airlinecodes.forEach(function(code) { %>
+                        <option><%= code.iata %></option>
+                      <% }); %>
                     </select>
                   </div>
                   <div class="form-group col-md-3">

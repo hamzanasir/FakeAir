@@ -32,20 +32,28 @@ app.get('/admin', (req, res) => {
   if (req.session.userid !== process.env.ADMINU || req.session.password !== process.env.ADMINP) {
     res.redirect('/login');
   } else {
+    let airportcodes;
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
       ssl: true,
     });
     client.connect();
-    const query = 'SELECT iata FROM airport';
+    let query = 'SELECT iata FROM airport';
     client.query(query, (err, result) => {
       if (err) {
         console.log(err.stack); // eslint-disable-line no-console
-        res.render('admin');
       } else {
-        res.render('admin', { airportcodes: result.rows });
+        airportcodes = result.rows;
       }
-      client.end();
+      query = 'SELECT iata FROM airline';
+      client.query(query, (err1, result1) => {
+        if (err1) {
+          console.log(err.stack); // eslint-disable-line no-console
+        } else {
+          res.render('admin', { airportcodes, airlinecodes: result1.rows });
+        }
+        client.end();
+      });
     });
   }
 });
