@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+const ssl = (process.env.NODE_ENV === 'production');
+
 const app = express();
 app.use(session({
   secret: 'keyboard cat',
@@ -35,7 +37,7 @@ app.get('/admin', (req, res) => {
     let airportcodes;
     const client = new Client({
       connectionString: process.env.DATABASE_URL,
-      ssl: true,
+      ssl,
     });
     client.connect();
     let query = 'SELECT iata FROM airport';
@@ -61,7 +63,7 @@ app.get('/admin', (req, res) => {
 app.post('/admin', (req, res) => {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
+    ssl,
   });
   client.connect();
   const data = req.body;
