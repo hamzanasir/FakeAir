@@ -134,7 +134,7 @@ app.post('/admin', (req, res) => {
         if (err) {
           req.flash('error', 'Error could not add to Database!');
           res.redirect('/admin');
-          console.log(err.stack);
+          console.log(err.stack); // eslint-disable-line no-console
         } else {
           req.flash('success', 'Succesfully added to Database!');
           res.redirect('/admin');
