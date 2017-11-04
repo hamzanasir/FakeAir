@@ -37,19 +37,19 @@
         <form>
           <div class="form-row">
              <div class="form-group col-sm-12 col-md-6">
-               <label for="depart">Departure airport</label>
-               <select name="departureairport" class="selectpicker" data-live-search="true" id="depart">
-                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                <option data-tokens="ketchup mustard">Burger, Shake and a Smile</option>
-                <option data-tokens="ketchup mustard">Sugar, Spice and all things nice</option>
+              <label for="depart">Departure airport</label>
+              <select name="departureairport" class="selectpicker" data-live-search="true" id="depart">
+                <%airport.forEach((a) => {%>
+                  <option data-tokens="<%= a.iata %> <%= a.name %>"><%= a.name %> (<%= a.iata %>)</option>
+                <% }); %>
               </select>
              </div>
              <div class="form-group col-sm-12 col-md-6">
                <label for="arrival">Arrival Airport</label>
                <select name="arrivalairport" class="selectpicker" data-live-search="true" id="arrival">
-                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
-                <option data-tokens="ketchup mustard">Burger, Shake and a Smile</option>
-                <option data-tokens="ketchup mustard">Sugar, Spice and all things nice</option>
+                 <%airport.forEach((a) => {%>
+                   <option data-tokens="<%= a.iata %> <%= a.name %>"><%= a.name %> (<%= a.iata %>)</option>
+                 <% }); %>
               </select>
              </div>
           </div>
