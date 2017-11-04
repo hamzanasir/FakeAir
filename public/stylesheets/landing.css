@@ -23,11 +23,11 @@ body {
 
 #landing-header h1 {
   color: white;
-  font-size: 6em;
+  font-size: 8vw;
 }
 
 #landing-button {
-  font-size: 2em;
+  font-size: 3vw;
 }
 
 .slideshow {
