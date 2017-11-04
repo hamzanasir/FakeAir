@@ -2,24 +2,71 @@
 <html>
     <head>
         <title>FakeAir</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
         <link rel="stylesheet" href="/stylesheets/landing.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
     </head>
     <body>
 
-<div id="landing-header">
- 		<h1>Welcome to FakeAir!</h1>
-		<a id="landing-button" href="#" class="btn btn-lg btn-success">Book A Flight!</a>
+    <div class="container">
+      <div id="landing-header">
+     		<h1>Welcome to FakeAir!</h1>
+    		<a id="landing-button" href="#" class="btn btn-lg btn-success">Book A Flight!</a>
+      </div>
+
+      <ul class="slideshow">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+
+      <div class="img-thumbnail">
+        <form>
+          <div class="form-row">
+             <div class="form-group col-sm-12 col-md-6">
+               <label for="depart">Departure airport</label>
+               <select name="departureairport" class="selectpicker" data-live-search="true" id="depart">
+                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                <option data-tokens="ketchup mustard">Burger, Shake and a Smile</option>
+                <option data-tokens="ketchup mustard">Sugar, Spice and all things nice</option>
+              </select>
+             </div>
+             <div class="form-group col-sm-12 col-md-6">
+               <label for="arrival">Arrival Airport</label>
+               <select name="arrivalairport" class="selectpicker" data-live-search="true" id="arrival">
+                <option data-tokens="ketchup mustard">Hot Dog, Fries and a Soda</option>
+                <option data-tokens="ketchup mustard">Burger, Shake and a Smile</option>
+                <option data-tokens="ketchup mustard">Sugar, Spice and all things nice</option>
+              </select>
+             </div>
+          </div>
+          <div class="form-row">
+             <div class="form-group col-sm-12 col-md-4">
+               <label for="departing">Departing</label>
+               <input name="departureairport" type="date" class="form-control" id="departing" placeholder="Departing Date">
+             </div>
+             <div class="form-group col-sm-12 col-md-4">
+               <label for="returning">Arriving</label>
+               <input name="arrivalsairport" type="date" class="form-control" id="returning" placeholder="Returning Date">
+             </div>
+             <div class="form-group col-sm-12 col-md-4">
+               <label for="seats">Number of Seats</label>
+               <input name="seats" type="number" class="form-control" id="seats" placeholder="Seats">
+             </div>
+          </div>
+        </form>
+      </div>
     </div>
 
-    <ul class="slideshow">
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-    </ul>
-
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.min.js"
+      integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+      crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="/scripts/landing.js"></script>
   </body>
   <html>
