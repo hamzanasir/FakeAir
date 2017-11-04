@@ -40,6 +40,7 @@ app.get('/', (req, res) => {
     } else {
       res.render('landing', { airport: airport.rows });
     }
+    client.end();
   });
 });
 
