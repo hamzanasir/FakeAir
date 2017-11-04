@@ -113,6 +113,34 @@ app.post('/admin', (req, res) => {
         client.end();
       });
     }
+    if (data.flight) {
+      const flightData = data.flight;
+      const query = 'INSERT INTO flight VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+      const values = [
+        flightData.code,
+        flightData.number,
+        flightData.date,
+        flightData['departure-airport'],
+        flightData['arrival-airport'],
+        flightData['departure-time'],
+        flightData['arrival-time'],
+        flightData['econ-cap'],
+        flightData['first-cap'],
+        flightData.miles,
+        flightData.firstclass,
+        flightData.econclass,
+      ];
+      client.query(query, values, (err) => {
+        if (err) {
+          req.flash('error', 'Error could not add to Database!');
+          res.redirect('/admin');
+          console.log(err.stack); // eslint-disable-line no-console
+        } else {
+          req.flash('success', 'Succesfully added to Database!');
+          res.redirect('/admin');
+        }
+      });
+    }
   }
 });
 
