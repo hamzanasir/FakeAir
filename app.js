@@ -27,7 +27,20 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  res.render('landing');
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+  const query = 'SELECT iata, name FROM airport';
+  client.query(query, (err, airport) => {
+    if (err) {
+      res.render('landing');
+      console.log(err.stack); // eslint-disable-line no-console
+    } else {
+      res.render('landing', { airport: airport.rows });
+    }
+  });
 });
 
 app.get('/admin', (req, res) => {
