@@ -12,7 +12,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 120000 },
 }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
@@ -139,6 +139,7 @@ app.post('/admin', (req, res) => {
           req.flash('success', 'Succesfully added to Database!');
           res.redirect('/admin');
         }
+        client.end();
       });
     }
   }
