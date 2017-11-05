@@ -6,6 +6,8 @@
         <title>FakeAir</title>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
+        <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="/stylesheets/landing.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
     </head>
@@ -20,7 +22,7 @@
           </div>
           <div class="row">
             <div class="col-sm-4 col-md-4 col-md-offset-4 col-sm-offset-4">
-      		    <a id="landing-button" href="#" class="btn btn-lg btn-success">Search Flights!</a>
+      		    <a id="landing-button" href="#" class="btn btn-lg btn-success">Search Flights <i class="fa fa-plane" aria-hidden="true"></i></a>
             </div>
           </div>
         </div>
@@ -58,14 +60,22 @@
                <label for="departing">Departing</label>
                <input name="departureairport" type="date" class="form-control" id="departing" placeholder="Departing Date">
              </div>
-             <div class="form-group col-sm-12 col-md-4">
+             <div id="returning-blk" class="form-group col-sm-12 col-md-4">
                <label for="returning">Arriving</label>
                <input name="arrivalsairport" type="date" class="form-control" id="returning" placeholder="Returning Date">
              </div>
-             <div class="form-group col-sm-12 col-md-4">
+             <div class="form-group col-sm-10 col-md-2">
                <label for="seats">Number of Seats</label>
                <input name="seats" type="number" class="form-control" id="seats" placeholder="Seats">
              </div>
+             <div id="toggle-btn" class="form-group col-sm-2 col-md-2">
+               <input id="toggle-one" checked type="checkbox" data-onstyle="primary" data-offstyle="info">
+             </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-xs-8 col-md-2 col-md-offset-5 col-xs-offset-2">
+              <button style="margin-top: 1vh;" type="button" class="btn btn-success btn-lg btn-block">Search</button>
+            </div>
           </div>
         </form>
       </div>
@@ -77,6 +87,7 @@
       crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/js/bootstrap-select.min.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <script src="/scripts/landing.js"></script>
   </body>
   <html>

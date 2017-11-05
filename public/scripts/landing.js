@@ -11,6 +11,18 @@ $(document).ready(() => {
     $('.bootstrap-select').css({ width: '100%' });
   });
 
+  $('#toggle-one').bootstrapToggle({
+    on: 'One-way',
+    off: 'Return',
+  });
+
+  $('#toggle-one').parent().parent().css({ marginTop: '2.8vh' });
+  $('#toggle-one').parent().css({ width: '100%' });
+
+  $('#toggle-one').change(() => {
+    $('#returning-blk').toggle(($('#toggle-one').is(':checked')));
+  });
+
   if ($(window).width() < 400) {
     $('#landing-header').css({ paddingTop: '30vh' });
   }
