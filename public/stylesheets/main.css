@@ -7,14 +7,56 @@
 }
 
 .btn-info {
-  background-color: #ad0000;
-  border-color: #ad0000;
+  color: #ffffff;
+  background-color: #AD0000;
+  border-color: #820000;
 }
 
-.btn-info:hover, .btn-info:active {
+.btn-info:hover,
+.btn-info:focus,
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+  color: #ffffff;
+  background-color: #820000;
+  border-color: #820000;
+}
+
+.btn-info:active,
+.btn-info.active,
+.open .dropdown-toggle.btn-info {
+  background-image: none;
+}
+
+.btn-info.disabled,
+.btn-info[disabled],
+fieldset[disabled] .btn-info,
+.btn-info.disabled:hover,
+.btn-info[disabled]:hover,
+fieldset[disabled] .btn-info:hover,
+.btn-info.disabled:focus,
+.btn-info[disabled]:focus,
+fieldset[disabled] .btn-info:focus,
+.btn-info.disabled:active,
+.btn-info[disabled]:active,
+fieldset[disabled] .btn-info:active,
+.btn-info.disabled.active,
+.btn-info[disabled].active,
+fieldset[disabled] .btn-info.active {
+  background-color: #AD0000;
+  border-color: #820000;
+}
+
+.btn-info:not([disabled]):not(.disabled).active, .btn-info:not([disabled]):not(.disabled):active, .show>.btn-info.dropdown-toggle {
     color: #fff;
     background-color: #820000;
     border-color: #820000;
+    box-shadow: 0 0 0 0.2rem rgba(229,64,64,0.5);
+}
+
+.btn-info .badge {
+  color: #AD0000;
+  background-color: #ffffff;
 }
 
 .btn-info.focus, .btn-info:focus {
