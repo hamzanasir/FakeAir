@@ -42,7 +42,7 @@
               <label for="depart">Departure airport</label>
               <select name="departureairport" class="selectpicker" data-live-search="true" id="depart">
                 <%airport.forEach((a) => {%>
-                  <option data-tokens="<%= a.iata %> <%= a.name %>"><%= a.name %> (<%= a.iata %>)</option>
+                  <option data-tokens="<%= a.iata %> <%= a.name %> <%= a.country %> <%= a.state %> <%= a.city %>"><%= a.name %> (<%= a.iata %>)</option>
                 <% }); %>
               </select>
              </div>
@@ -50,7 +50,7 @@
                <label for="arrival">Arrival Airport</label>
                <select name="arrivalairport" class="selectpicker" data-live-search="true" id="arrival">
                  <%airport.forEach((a) => {%>
-                   <option data-tokens="<%= a.iata %> <%= a.name %>"><%= a.name %> (<%= a.iata %>)</option>
+                   <option data-tokens="<%= a.iata %> <%= a.name %> <%= a.country %> <%= a.state %> <%= a.city %>"><%= a.name %> (<%= a.iata %>)</option>
                  <% }); %>
               </select>
              </div>

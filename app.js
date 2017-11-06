@@ -32,7 +32,7 @@ app.get('/', (req, res) => {
     ssl,
   });
   client.connect();
-  const query = 'SELECT iata, name FROM airport';
+  const query = 'SELECT iata, name, state, city, country FROM airport';
   client.query(query, (err, airport) => {
     if (err) {
       res.render('landing');
