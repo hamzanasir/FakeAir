@@ -5,3 +5,13 @@
 #flashMessage {
   margin-top: 18px;
 }
+.btn-info {
+  background-color: #ad0000;
+  border-color: #ad0000;
+}
+
+.btn-info:hover {
+    color: #fff;
+    background-color: #820000;
+    border-color: #820000;
+}

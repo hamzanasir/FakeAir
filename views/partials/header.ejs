@@ -2,11 +2,38 @@
 <html>
     <head>
         <title>FakeAir</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="height=device-height, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <link rel="stylesheet" href="/stylesheets/main.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
     </head>
     <body>
+
+     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <div style="max-width: 86vw;" class="container">
+        <a class="navbar-brand" href="/">FakeAir</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Book Flight</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Manage</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Admin</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      </nav>
 
       <% if ( error.length || success.length ) { %>
         <div id="flashMessage" class='container'>
