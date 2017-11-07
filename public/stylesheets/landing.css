@@ -30,6 +30,15 @@ body {
   font-size: 3vh;
 }
 
+@media only screen and (max-width: 500px) {
+  #landing-header {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    padding-top: 28vh;
+  }
+}
+
 /*For custom styling of buttons if ever needed*/
 
 /*.btn-success {

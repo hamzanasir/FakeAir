@@ -2,8 +2,8 @@
 
 $(document).ready(() => {
   $('#landing-button').click(() => {
-    if ($(window).width() < 400) {
-      $('#landing-header').animate({ paddingTop: '10vh' }, 1000);
+    if ($(window).width() < 500) {
+      $('#landing-header').animate({ paddingTop: '5vh' }, 1000);
     } else {
       $('#landing-header').animate({ paddingTop: '19vh' }, 1000);
     }
@@ -22,8 +22,4 @@ $(document).ready(() => {
   $('#toggle-one').change(() => {
     $('#returning-blk').toggle(($('#toggle-one').is(':checked')));
   });
-
-  if ($(window).width() < 400) {
-    $('#landing-header').css({ paddingTop: '30vh' });
-  }
 });
