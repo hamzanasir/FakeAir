@@ -84,11 +84,15 @@ app.post('/admin', (req, res) => {
   if (data) {
     if (data.airport) {
       const airp = data.airport; // object destructuring not yet supported by node
+      let st = null;
+      if (airp.state) {
+        st = airp.state;
+      }
       const query = 'INSERT INTO airport VALUES ($1, $2, $3, $4, $5, $6, $7)';
       const values = [
         airp.iata,
         airp.country,
-        airp.state,
+        st,
         airp.city,
         airp.name,
         airp.longitude,

@@ -9,18 +9,23 @@ $(document).ready(() => {
     $('#ec-price').val(baseFare);
     $('#fc-price').val(baseFare + 200);
   });
-
   $('#iata').focusout((e) => {
     $.getJSON('/scripts/airports.json', (json) => {
       json.forEach((airportData) => {
         if (airportData.code === e.target.value.toUpperCase()) {
           $('#iata').val(e.target.value.toUpperCase());
           $('#country').val(airportData.country);
-          $('#state').val(airportData.state);
           $('#city').val(airportData.city);
           $('#longitude').val(airportData.lon);
           $('#latitude').val(airportData.lat);
           $('#name').val(airportData.name);
+          if (airportData.country === 'United States' || airportData.country === 'Canada') {
+            $('#state').val(airportData.state);
+            $('#state').removeAttr('disabled');
+          } else {
+            $('#state').val('');
+            $('#state').attr('disabled', 'disabled');
+          }
         }
       });
     });
