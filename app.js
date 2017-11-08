@@ -92,8 +92,8 @@ app.post('/admin', (req, res) => {
       const values = [
         airp.iata,
         airp.country,
-        st,
         airp.city,
+        st,
         airp.name,
         airp.longitude,
         airp.latitude,
@@ -133,7 +133,7 @@ app.post('/admin', (req, res) => {
     }
     if (data.flight) {
       const flightData = data.flight;
-      const query = 'INSERT INTO flight VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+      const query = 'INSERT INTO flight VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
       const values = [
         flightData.code,
         flightData.number,

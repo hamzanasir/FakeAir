@@ -7,5 +7,5 @@ CREATE TABLE airport (
   longitude real,
   latitude real
 
-  CHECK (state != NULL AND (country = 'United States' or country = 'Canada'))
+  CHECK ((state != NULL AND (country = 'United States' or country = 'Canada')) OR (state = NULL AND (country != 'United States' or country != 'Canada')))
 )
