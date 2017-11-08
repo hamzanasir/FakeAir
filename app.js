@@ -61,7 +61,7 @@ app.get('/admin', (req, res) => {
       } else {
         airportcodes = result.rows;
       }
-      query = 'SELECT iata FROM airline';
+      query = 'SELECT code FROM airline';
       client.query(query, (err1, result1) => {
         if (err1) {
           console.log(err.stack); // eslint-disable-line no-console
