@@ -173,6 +173,10 @@ app.post('/login', (req, res) => {
   res.redirect('/admin');
 });
 
+app.get('/search', (req, res) => {
+  res.render('search');
+});
+
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('The FakeAir Server Has Started!'); // eslint-disable-line no-console
 });

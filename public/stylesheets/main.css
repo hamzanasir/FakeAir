@@ -6,6 +6,28 @@
   margin-top: 18px;
 }
 
+#searchrow {
+  margin-top: 3vh;
+}
+
+.pretty {
+  float: right;
+  margin-right: 0;
+  font-size: 2.1rem;
+}
+
+.card-header p {
+  margin: 0;
+}
+
+.flightitle {
+  float: left;
+}
+
+.tripBold {
+  float: left;
+}
+
 .btn-info {
   color: #ffffff;
   background-color: #AD0000;
