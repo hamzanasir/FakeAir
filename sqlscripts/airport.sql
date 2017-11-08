@@ -1,12 +1,11 @@
 CREATE TABLE airport (
-  iata char(3) NOT NULL,
+  iata char(3) primary key,
   country varchar,
-  city varchar, 
+  city varchar,
   state varchar,
   name varchar,
   longitude real,
   latitude real
 
-  CHECK (state is NOT NULL AND (country = 'United States' or country = 'Canada'))
-  PRIMARY KEY (iata)
+  CHECK (state != NULL AND (country = 'United States' or country = 'Canada'))
 )
