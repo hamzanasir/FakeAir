@@ -24,6 +24,7 @@ body {
 #landing-header h1 {
   color: white;
   font-size: 8vh;
+  text-shadow: -3px 3px 12px #000000;
 }
 
 #landing-button {
