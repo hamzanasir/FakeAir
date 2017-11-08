@@ -1,4 +1,5 @@
 create table flight(
+	  flightID serial unique,
 	  code char(2),
     number int,
     date date,

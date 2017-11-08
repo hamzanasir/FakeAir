@@ -61,7 +61,7 @@ app.get('/admin', (req, res) => {
       } else {
         airportcodes = result.rows;
       }
-      query = 'SELECT iata FROM airline';
+      query = 'SELECT code FROM airline';
       client.query(query, (err1, result1) => {
         if (err1) {
           console.log(err.stack); // eslint-disable-line no-console
@@ -92,8 +92,8 @@ app.post('/admin', (req, res) => {
       const values = [
         airp.iata,
         airp.country,
-        st,
         airp.city,
+        st,
         airp.name,
         airp.longitude,
         airp.latitude,
@@ -133,7 +133,7 @@ app.post('/admin', (req, res) => {
     }
     if (data.flight) {
       const flightData = data.flight;
-      const query = 'INSERT INTO flight VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
+      const query = 'INSERT INTO flight VALUES (DEFAULT, $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)';
       const values = [
         flightData.code,
         flightData.number,
