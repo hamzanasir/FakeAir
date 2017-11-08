@@ -3,14 +3,15 @@
 <div class="container">
   <div id="searchrow" class="row">
     <div class="col-md-8">
-      <h2>Departing</h2>
-      <hr>
+      <h2 id="departingheading">Departing </h2>
+      <i id="departicon" class="material-icons">flight_takeoff</i>
+      <hr style="margin-top: 0.3rem;">
       <div id="accordion" role="tablist">
         <div class="card">
           <div class="card-header" role="tab" id="headingOne">
             <h3 class="mb-0">
               <p class="flightitle" data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                ORD -> LHE
+                 2 Connections
               </p>
               <div class="pretty p-icon p-round p-pulse">
                   <input type="checkbox" />
@@ -24,14 +25,21 @@
 
           <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
             <div class="card-body">
-              Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+              <h4>Route</h4>
+              <h5>
+                <button type="button" class="btn btn-light" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Flight Details" data-html="true" data-content="<div><strong>Departs: </strong>10:00pm</div> <div><strong>Lands: </strong>6:00am</div>">ORD</button>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                <button type="button" class="btn btn-light" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Flight Details" data-html="true" data-content="<div><strong>Departs: </strong>10:00pm</div> <div><strong>Lands: </strong>6:00am</div>">MAD</button>
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                <button type="button" class="btn btn-light" data-toggle="popover" data-trigger="focus" data-placement="bottom" title="Flight Details" data-html="true" data-content="<div><strong>Departs: </strong>10:00pm</div> <div><strong>Lands: </strong>6:00am</div>">LHE</button>
+              </h5>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="col-md-4">
+    <div id="summary-column" class="col-md-4">
 
       <div class="card">
         <h3 class="card-header">Trip Summary</h3>

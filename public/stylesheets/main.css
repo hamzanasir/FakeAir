@@ -10,6 +10,16 @@
   margin-top: 3vh;
 }
 
+#departingheading {
+  float: left;
+}
+
+#departicon {
+  font-size: 2rem;
+  margin-top: 1vh;
+  margin-left: 1vh;
+}
+
 .pretty {
   float: right;
   margin-right: 0;
@@ -83,4 +93,10 @@ fieldset[disabled] .btn-info.active {
 
 .btn-info.focus, .btn-info:focus {
     box-shadow: 0 0 0 0.2rem rgba(229,64,64,0.5);
+}
+
+@media only screen and (max-width: 500px) {
+  #summary-column {
+    margin-top: 3vh;
+  }
 }

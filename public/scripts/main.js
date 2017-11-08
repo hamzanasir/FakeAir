@@ -2,6 +2,7 @@
 
 $(document).ready(() => {
   $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+  $('[data-toggle="popover"]').popover();
 
   $('#miles').focusout((e) => {
     const miles = parseInt(e.target.value, 10);
