@@ -20,6 +20,12 @@
   margin-left: 1vh;
 }
 
+#returningicon {
+  font-size: 2rem;
+  margin-top: 0.5vh;
+  margin-left: 1vh;
+}
+
 .pretty {
   float: right;
   margin-right: 0;
@@ -28,6 +34,7 @@
 
 .card-header p {
   margin: 0;
+  cursor: pointer;
 }
 
 .flightitle {
