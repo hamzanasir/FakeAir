@@ -1,3 +1,5 @@
+/* eslint-disable no-param-reassign, no-console */
+
 require('dotenv').load();
 const { Client } = require('pg');
 const express = require('express');
@@ -26,6 +28,40 @@ app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   next();
 });
+
+function tConvert(time) {
+  // Check correct time format and split into components
+  time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
+  if (time.length > 1) { // If time format correct
+    time = time.slice(1); // Remove full string match value
+    time[5] = +time[0] < 12 ? ' AM' : ' PM'; // Set AM/PM
+    time[0] = +time[0] % 12 || 12; // Adjust hours
+    time.splice(3, 1);
+  }
+  return time.join(''); // return adjusted time or original string
+}
+
+function parseData(arr) {
+  let j;
+  let i;
+  for (j = 0; j < arr.length; j += 1) {
+    arr[j].serialid = (arr[j].serialid).split(',');
+    arr[j].route = (arr[j].route).split(',');
+    arr[j].datel = (arr[j].datel).split(',');
+    const array = [];
+    const x = arr[j].timeset.split(',');
+    for (i = 0; i < x.length; i += 1) {
+      const y = x[i].split('~');
+      array.push({
+        dep: tConvert(y[0]),
+        arrtime: tConvert(y[1]),
+      });
+    }
+    arr[j].timeset = array;
+  }
+  return arr;
+}
 
 app.get('/', (req, res) => {
   const client = new Client({
@@ -187,7 +223,69 @@ app.get('/search', (req, res) => {
   const arrAirport = userData.arrivalairport;
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
-  res.render('search');
+
+  const searchResults = {};
+
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+
+  const query = {
+    // give the query a unique name
+    name: 'resursive-search',
+    text: `WITH RECURSIVE connectflight(flightcode, flightnumber) AS(
+    SELECT flightID, code, number, date, date || ',' as dateL ,depAirport, arrAirport, arrTime, depAirport, econSeats, firstSeats, flightID || ',' as serialID, (arrTime-depTime) as duration, depAirport || ',' || arrAirport as route, 1 path_len, cast(depTime as varchar) || '~' || cast(arrTime as varchar) as timeSet
+        FROM flight
+    UNION
+    SELECT f2.flightID, f2.code, f2.number, f2.date, dateL || f2.date as dateL, f2.depAirport, f2.arrAirport, f2.arrTime, f2.depAirport, f2.econSeats, f2.firstSeats, serialID|| f2.flightID as serialID, duration + (f2.arrTime - f2.depTime) as duration, route || ',' || f2.arrAirport as route, path_len +1 as path_len, timeSet|| ',' || (f2.depTime || '~' || f2.arrTime) as timeSet
+      FROM  connectflight, flight f2
+      WHERE connectflight.arrAirport = f2.depAirport
+        AND ((connectflight.date < f2.date) OR (connectflight.arrTime<f2.depTime and connectflight.date = f2.date))
+          AND f2.econSeats>0
+           AND f2.firstSeats>0
+    )
+    SELECT distinct serialID, duration, route, path_len, dateL, timeSet
+    FROM connectflight
+    WHERE (route LIKE $1 and route LIKE $2)
+       and (dateL LIKE $3)
+       and path_len > $4`,
+    values: [
+      `${userData.departureairport}%`,
+      `%${userData.arrivalairport}`,
+      `${userData.departuredate}%`,
+      parseInt(userData.connections, 10),
+    ],
+  };
+
+  client.query(query, (err, result) => {
+    if (err) {
+      console.log(err.stack); // eslint-disable-line no-console
+    } else {
+      searchResults.depart = parseData(result.rows);
+    }
+    if (userData.return === 'on' && !err) {
+      query.values = [
+        `${userData.arrivalairport}%`,
+        `%${userData.departureairport}`,
+        `${userData.returndate}%`,
+        parseInt(userData.connections, 10),
+      ];
+      client.query(query, (err1, result1) => {
+        if (err1) {
+          console.log(err1.stack);
+        } else {
+          searchResults.return = parseData(result1.rows);
+        }
+        client.end();
+        res.render('search', { searchResults });
+      });
+    } else {
+      client.end();
+      res.render('search', { searchResults });
+    }
+  });
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
