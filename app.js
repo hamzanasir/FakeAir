@@ -182,7 +182,11 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/search', (req, res) => {
-  console.log(req.query.departureairport.split('(',2));
+  const userData = req.query;
+  const depAirport = userData.departureairport;
+  const arrAirport = userData.arrivalairport;
+  userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
+  userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
   res.render('search');
 });
 
