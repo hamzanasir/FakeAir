@@ -1,7 +1,3 @@
-button {
-  cursor: pointer;
-}
-
 #admin-row {
   margin-top: 6vh;
 }
@@ -33,6 +29,10 @@ button {
 #chartdiv {
   width: 100%;
   height: 500px;
+}
+
+.tripDisplay {
+  cursor: pointer;
 }
 
 .pretty {

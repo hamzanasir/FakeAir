@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
+const url = require('url');
 
 const ssl = (process.env.NODE_ENV === 'production');
 
@@ -42,6 +43,13 @@ app.get('/', (req, res) => {
     }
     client.end();
   });
+});
+
+app.post('/', (req, res) => {
+  res.redirect(url.format({
+    pathname: '/search',
+    query: req.body,
+  }));
 });
 
 app.get('/admin', (req, res) => {
@@ -174,6 +182,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/search', (req, res) => {
+  console.log(req.query.departureairport.split('(',2));
   res.render('search');
 });
 

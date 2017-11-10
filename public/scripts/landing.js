@@ -12,8 +12,8 @@ $(document).ready(() => {
   });
 
   $('#toggle-one').bootstrapToggle({
-    on: 'One-way',
-    off: 'Return',
+    on: 'Return',
+    off: 'One-way',
   });
 
   $('#toggle-one').parent().parent().css({ marginTop: '2.8vh' });

@@ -36,7 +36,7 @@
       </ul>
 
       <div class="img-thumbnail">
-        <form>
+        <form action="/" method="post">
           <div class="form-row">
              <div class="form-group col-sm-12 col-md-6">
               <label for="depart">Departure airport</label>
@@ -58,23 +58,23 @@
           <div class="form-row">
              <div class="form-group col-sm-12 col-md-4">
                <label for="departing">Departing</label>
-               <input name="departureairport" type="date" class="form-control" id="departing" placeholder="Departing Date">
+               <input name="departuredate" type="date" class="form-control" id="departing" placeholder="Departing Date">
              </div>
              <div id="returning-blk" class="form-group col-sm-12 col-md-4">
                <label for="returning">Arriving</label>
-               <input name="arrivalsairport" type="date" class="form-control" id="returning" placeholder="Returning Date">
+               <input name="returndate" type="date" class="form-control" id="returning" placeholder="Returning Date">
              </div>
              <div class="form-group col-sm-10 col-md-2">
                <label for="seats">Number of Seats</label>
                <input name="seats" type="number" class="form-control" id="seats" placeholder="Seats">
              </div>
              <div id="toggle-btn" class="form-group col-sm-2 col-md-2">
-               <input id="toggle-one" checked type="checkbox" data-onstyle="primary" data-offstyle="info">
+               <input id="toggle-one" name="return" checked type="checkbox" data-onstyle="primary" data-offstyle="info">
              </div>
           </div>
           <div class="form-row">
             <div class="form-group col-xs-8 col-md-2 col-md-offset-5 col-xs-offset-2">
-              <a href="/search" style="margin-top: 1vh;" type="button" class="btn btn-default btn-lg btn-block">Search</a>
+              <button style="margin-top: 1vh;" type="submit" class="btn btn-default btn-lg btn-block">Search</button>
             </div>
           </div>
         </form>
