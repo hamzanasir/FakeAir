@@ -110,25 +110,28 @@
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
 
+<script type="text/javascript">
+  var average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
+</script>
+
 <% searchResults.depart.forEach((flight, number) => { %>
   <script type="application/javascript">
-    var route = [];
-    var latitudes = [];
-    var longitudes = [];
+    var route<%= number %> = [];
+    var latitudes<%= number %> = [];
+    var longitudes<%= number %> = [];
     <% flight.route.forEach((dest) => { %>
-      route.push('<%= dest %>');
+      route<%= number %>.push('<%= dest %>');
     <% }); %>
     $.getJSON('/scripts/airports.json', (json) => {
-      route.forEach((loc) => {
+      route<%= number %>.forEach((loc) => {
         json.forEach((airportData) => {
           if (airportData.code === loc.toUpperCase()) {
-            longitudes.push(parseFloat(airportData.lon));
-            latitudes.push(parseFloat(airportData.lat));
+            longitudes<%= number %>.push(parseFloat(airportData.lon));
+            latitudes<%= number %>.push(parseFloat(airportData.lat));
             }
         });
       });
-      console.log(latitudes);
-      console.log(longitudes);
+
       /**
        * SVG path for target icon
        */
@@ -142,16 +145,16 @@
       /**
        * Create the map
        */
-      var images = []
-      route.forEach((loc, index) => {
-        images.push({
+      var images<%= number %> = []
+      route<%= number %>.forEach((loc, index) => {
+        images<%= number %>.push({
           "svgPath": targetSVG,
           "title": loc,
-          "latitude": latitudes[index],
-          "longitude": longitudes[index]
+          "latitude": latitudes<%= number %>[index],
+          "longitude": longitudes<%= number %>[index]
         });
       });
-      images.push({
+      images<%= number %>.push({
         "svgPath": planeSVG,
         "positionOnLine": 0,
         "color": "#585869",
@@ -162,7 +165,7 @@
         "scale": 0.03,
         "positionScale": 1.8
       });
-      console.log(images);
+
       var map = AmCharts.makeChart( "chartdiv<%= number %>", {
         "type": "map",
       "theme": "none",
@@ -170,18 +173,18 @@
 
         "dataProvider": {
           "map": "worldLow",
-          "zoomLevel": 3.5,
-          "zoomLongitude": -55,
-          "zoomLatitude": 42,
+          "zoomLevel": 2.5,
+          "zoomLongitude": average(longitudes<%= number %>),
+          "zoomLatitude": average(latitudes<%= number %>),
 
           "lines": [ {
             "id": "line1",
             "arc": -0.85,
             "alpha": 0.3,
-            "latitudes": latitudes,
-            "longitudes": longitudes
+            "latitudes": latitudes<%= number %>,
+            "longitudes": longitudes<%= number %>
           } ],
-          "images": images
+          "images": images<%= number %>
         },
 
         "areasSettings": {
@@ -223,15 +226,12 @@
       routeR<%= number %>.forEach((loc) => {
         json.forEach((airportData) => {
           if (airportData.code === loc.toUpperCase()) {
-            console.log("Found match");
-            console.log(loc);
             longitudesR<%= number %>.push(parseFloat(airportData.lon));
             latitudesR<%= number %>.push(parseFloat(airportData.lat));
             }
         });
       });
-      console.log(latitudesR<%= number %>);
-      console.log(longitudesR<%= number %>);
+
       /**
        * SVG path for target icon
        */
@@ -265,7 +265,7 @@
         "scale": 0.03,
         "positionScale": 1.8
       });
-      console.log(imagesR<%= number %>);
+
       var map = AmCharts.makeChart( "chartdivR<%= number %>", {
         "type": "map",
       "theme": "none",
@@ -273,9 +273,9 @@
 
         "dataProvider": {
           "map": "worldLow",
-          "zoomLevel": 3.5,
-          "zoomLongitude": -55,
-          "zoomLatitude": 42,
+          "zoomLevel": 2.5,
+          "zoomLongitude": average(longitudesR<%= number %>),
+          "zoomLatitude": average(latitudesR<%= number %>),
 
           "lines": [ {
             "id": "line1",

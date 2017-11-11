@@ -27,6 +27,7 @@
 }
 
 .chartdiv {
+  margin-top: 2vh;
   width: 100%;
   height: 500px;
 }
