@@ -26,7 +26,7 @@
   margin-left: 1vh;
 }
 
-#chartdiv {
+.chartdiv {
   width: 100%;
   height: 500px;
 }
