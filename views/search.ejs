@@ -14,7 +14,7 @@
           <div class="card-header" role="tab" id="heading<%= number %>">
             <h3 class="mb-0">
               <p class="flightitle" data-toggle="collapse" href="#collapse<%= number %>" aria-expanded="true" aria-controls="collapse<%= number %>">
-                 <%= flight.path_len %> Connections
+                 <%= flight.path_len == 1 ? 'Direct' : `${flight.path_len} Connections` %>
               </p>
               <div class="pretty p-icon p-round p-pulse">
                   <input type="checkbox" />
@@ -63,7 +63,7 @@
           <div class="card-header" role="tab" id="headingR<%= number %>">
             <h3 class="mb-0">
               <p class="flightitle" data-toggle="collapse" href="#collapseR<%= number %>" aria-expanded="true" aria-controls="collapseR<%= number %>">
-                 <%= flight.path_len %> Connections
+                 <%= flight.path_len == 1 ? 'Direct' : `${flight.path_len} Connections` %>
               </p>
               <div class="pretty p-icon p-round p-pulse">
                   <input type="checkbox" />

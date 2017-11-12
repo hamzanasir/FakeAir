@@ -250,7 +250,8 @@ app.get('/search', (req, res) => {
     FROM connectflight
     WHERE (route LIKE $1 and route LIKE $2)
        and (dateL LIKE $3)
-       and path_len > $4`,
+       and path_len > $4
+    ORDER BY path_len`,
     values: [
       `${userData.departureairport}%`,
       `%${userData.arrivalairport}`,
@@ -258,8 +259,6 @@ app.get('/search', (req, res) => {
       parseInt(userData.connections, 10),
     ],
   };
-
-  const flightQuery = 'SELECT * FROM flight WHERE flightid = $1';
 
   client.query(query, (err, result) => {
     if (err) {
@@ -280,50 +279,8 @@ app.get('/search', (req, res) => {
         } else {
           searchResults.return = parseData(result1.rows);
         }
-        searchResults.depart.forEach((conn, cindex) => {
-          conn.serialid.forEach((flightid, index) => {
-            client.query(flightQuery, [parseInt(flightid, 10)], (errD, resD) => {
-              if (err) {
-                console.log(errD.stack);
-              } else {
-                searchResults.depart[cindex].serialid[index] = resD.rows[0]; // eslint-disable-line prefer-destructuring, max-len
-                if (index === (searchResults.depart[cindex].serialid.length - 1)) {
-                  searchResults.return.forEach((connR, cindexR) => {
-                    connR.serialid.forEach((flightidR, indexR) => {
-                      client.query(flightQuery, [parseInt(flightidR, 10)], (errRD, resRD) => {
-                        if (errRD) {
-                          console.log(errRD.stack);
-                        } else {
-                          searchResults.return[cindexR].serialid[indexR] = resRD.rows[0]; // eslint-disable-line prefer-destructuring, max-len
-                          if (indexR === (searchResults.return[cindexR].serialid.length - 1)) {
-                            client.end();
-                            res.render('search', { searchResults });
-                          }
-                        }
-                      });
-                    });
-                  });
-                }
-              }
-            });
-          });
-        });
-      });
-    } else if (searchResults.depart) {
-      searchResults.depart.forEach((conn, cindex) => {
-        conn.serialid.forEach((flightid, index) => {
-          client.query(flightQuery, [parseInt(flightid, 10)], (errD, resD) => {
-            if (err) {
-              console.log(errD.stack);
-            } else {
-              searchResults.depart[cindex].serialid[index] = resD.rows[0]; // eslint-disable-line prefer-destructuring, max-len
-              if (index === (searchResults.depart[cindex].serialid.length - 1)) {
-                client.end();
-                res.render('search', { searchResults });
-              }
-            }
-          });
-        });
+        client.end();
+        res.render('search', { searchResults });
       });
     } else {
       client.end();
