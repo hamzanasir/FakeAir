@@ -46,7 +46,7 @@ function parseData(arr) {
   let j;
   let i;
   for (j = 0; j < arr.length; j += 1) {
-    arr[j].serialid = (arr[j].serialid).split(',');
+    arr[j].serialid = ((arr[j].serialid).split(',')).filter(element => element !== '');
     arr[j].route = (arr[j].route).split(',');
     arr[j].datel = (arr[j].datel).split(',');
     const array = [];
