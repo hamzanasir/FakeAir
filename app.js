@@ -259,6 +259,8 @@ app.get('/search', (req, res) => {
     ],
   };
 
+  const flightQuery = 'SELECT * FROM flight WHERE flightid = $1';
+
   client.query(query, (err, result) => {
     if (err) {
       console.log(err.stack); // eslint-disable-line no-console
@@ -278,13 +280,53 @@ app.get('/search', (req, res) => {
         } else {
           searchResults.return = parseData(result1.rows);
         }
-        client.end();
-        console.log(searchResults);
-        res.render('search', { searchResults });
+        searchResults.depart.forEach((conn, cindex) => {
+          conn.serialid.forEach((flightid, index) => {
+            client.query(flightQuery, [parseInt(flightid, 10)], (errD, resD) => {
+              if (err) {
+                console.log(errD.stack);
+              } else {
+                searchResults.depart[cindex].serialid[index] = resD.rows[0]; // eslint-disable-line prefer-destructuring, max-len
+                if (index === (searchResults.depart[cindex].serialid.length - 1)) {
+                  searchResults.return.forEach((connR, cindexR) => {
+                    connR.serialid.forEach((flightidR, indexR) => {
+                      client.query(flightQuery, [parseInt(flightidR, 10)], (errRD, resRD) => {
+                        if (errRD) {
+                          console.log(errRD.stack);
+                        } else {
+                          searchResults.return[cindexR].serialid[indexR] = resRD.rows[0]; // eslint-disable-line prefer-destructuring, max-len
+                          if (indexR === (searchResults.return[cindexR].serialid.length - 1)) {
+                            client.end();
+                            res.render('search', { searchResults });
+                          }
+                        }
+                      });
+                    });
+                  });
+                }
+              }
+            });
+          });
+        });
+      });
+    } else if (searchResults.depart) {
+      searchResults.depart.forEach((conn, cindex) => {
+        conn.serialid.forEach((flightid, index) => {
+          client.query(flightQuery, [parseInt(flightid, 10)], (errD, resD) => {
+            if (err) {
+              console.log(errD.stack);
+            } else {
+              searchResults.depart[cindex].serialid[index] = resD.rows[0]; // eslint-disable-line prefer-destructuring, max-len
+              if (index === (searchResults.depart[cindex].serialid.length - 1)) {
+                client.end();
+                res.render('search', { searchResults });
+              }
+            }
+          });
+        });
       });
     } else {
       client.end();
-      console.log(searchResults);
       res.render('search', { searchResults });
     }
   });
