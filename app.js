@@ -279,10 +279,12 @@ app.get('/search', (req, res) => {
           searchResults.return = parseData(result1.rows);
         }
         client.end();
+        console.log(searchResults);
         res.render('search', { searchResults });
       });
     } else {
       client.end();
+      console.log(searchResults);
       res.render('search', { searchResults });
     }
   });

@@ -3,9 +3,11 @@
 <div class="container">
   <div id="searchrow" class="row">
     <div class="col-md-8">
+      <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
       <h2 id="departingheading">Departing </h2>
       <i id="departicon" class="material-icons">flight_takeoff</i>
       <hr style="margin-top: 0.3rem;">
+      <% if (searchResults.depart.length !== 0) { %>
       <% searchResults.depart.forEach((flight, number) => { %>
       <div id="accordion" role="tablist">
         <div class="card">
@@ -41,14 +43,20 @@
         </div>
       </div>
       <% }); %>
-
-      <% if (searchResults.return.length !== 0) { %>
+      <% } else {%>
+        <div id="flashMessage" class='container'>
+            <div class="alert alert-danger" role="alert">
+                Error: No departing flights found. Please search for different dates.
+            </div>
+        </div>
+      <% } %>
+      <% if (searchResults.return) {%>
       <div style="margin-top: 2.5vh;">
         <h2 id="departingheading">Returning </h2>
         <i id="returningicon" class="material-icons">flight_land</i>
       </div>
       <hr style="margin-top: 0.3rem;">
-      <% } %>
+      <% if (searchResults.return.length !== 0) { %>
       <% searchResults.return.forEach((flight, number) => { %>
       <div id="accordion" role="tablist">
         <div class="card">
@@ -84,6 +92,21 @@
         </div>
       </div>
       <% }); %>
+      <% } else { %>
+        <div id="flashMessage" class='container'>
+            <div class="alert alert-danger" role="alert">
+                Error: No returning flights found. Please search for different dates.
+            </div>
+        </div>
+      <% } %>
+      <% } %>
+      <% } else { %>
+          <div id="flashMessage" class='container'>
+              <div class="alert alert-danger" role="alert">
+                  Error: Invalid information. Please review your input.
+              </div>
+          </div>
+      <% } %>
     </div>
 
     <div id="summary-column" class="col-md-4">
@@ -104,7 +127,7 @@
     </div>
   </div>
 </div>
-
+<% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
 <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
 <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
@@ -213,7 +236,7 @@
     });
   </script>
 <% }); %>
-
+<% if (searchResults.return) {%>
 <% searchResults.return.forEach((flight, number) => { %>
   <script type="application/javascript">
     var routeR<%= number %> = [];
@@ -313,5 +336,7 @@
     });
   </script>
 <% }); %>
+<% } %>
+<% } %>
 
 <% include partials/footer %>
