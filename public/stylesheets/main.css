@@ -26,6 +26,14 @@
   margin-left: 1vh;
 }
 
+#arrow {
+  font-size: 13px;
+}
+
+#summaryCard {
+  -webkit-animation-duration: 0.5s;
+}
+
 .chartdiv {
   margin-top: 2vh;
   width: 100%;
@@ -39,6 +47,7 @@
 .pretty {
   float: right;
   margin-right: 0;
+  margin-left: 1vw;
   font-size: 2.1rem;
 }
 
