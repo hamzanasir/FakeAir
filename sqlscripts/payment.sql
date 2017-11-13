@@ -1,11 +1,10 @@
-create table payment (
-  email varchar unique,
-  name varchar,
-  card char(16) unique,
-  billing_address varchar,
+Create type address as (streetNum int, streetName varchar, city varchar, state varchar, zip int)
 
-  PRIMARY KEY (email, name),
-  FOREIGN KEY (email, billing_address) references customer(email, billing_address),
+Create table payment (
+  email varchar,
+  card char(16),
+  billing_address address unique,
 
+  primary key (email, card),
   check (billing_address != null and card != null)
 )

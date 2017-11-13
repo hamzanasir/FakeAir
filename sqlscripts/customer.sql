@@ -1,14 +1,12 @@
 CREATE TABLE customer (
   email varchar unique,
-  name varchar,
-  billing_address varchar unique,
+  first_name varchar,
+  last_name varchar,
+  billing_address address,
   home_airport char(3),
-  miles int,
+  mileages int,
 
-
-  foreign key (email, name) references payment(email,name),
-  primary key (email, billing_address),
+  primary key (email),
   foreign key (billing_address) references payment(billing_address),
-  foreign key (home_airport) references airport(iata),
-
+  foreign key (home_airport) references airport(iata)
 )
