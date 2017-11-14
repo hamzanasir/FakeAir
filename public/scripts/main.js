@@ -56,6 +56,9 @@ $(document).ready(() => {
 
   $('.pretty').click(function () {
     const flightData = $(this).closest('#accordion').data('flight');
+    const hours = Math.abs(flightData.duration.hours);
+    const minutes = flightData.duration.minutes ? Math.abs(flightData.duration.minutes) : 0;
+
     $('#summaryCard').addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
       $('#summaryCard').removeClass('animated pulse');
     });
@@ -63,17 +66,19 @@ $(document).ready(() => {
     if ($(this).data('flightType') === 'depart') {
       $('#depart').html(flightData.route.join('<i id="arrow" class="material-icons">arrow_forward</i>'));
       $('#totalDuration').attr('data-deptime', JSON.stringify({
-        hours: Math.abs(flightData.duration.hours),
-        minutes: Math.abs(flightData.duration.minutes),
+        hours,
+        minutes,
       }));
-      $('#departDuration').text(`Hours: ${Math.abs(flightData.duration.hours)} Minutes: ${Math.abs(flightData.duration.minutes)}`);
+      $('#summaryCard').attr('data-depart', JSON.stringify(flightData));
+      $('#departDuration').text(`Hours: ${hours} Minutes: ${minutes}`);
     } else {
       $('#return').html(flightData.route.reverse().join('<i id="arrow" class="material-icons">arrow_back</i>'));
       $('#totalDuration').attr('data-returntime', JSON.stringify({
-        hours: Math.abs(flightData.duration.hours),
-        minutes: Math.abs(flightData.duration.minutes),
+        hours,
+        minutes,
       }));
-      $('#returnDuration').text(`Hours: ${Math.abs(flightData.duration.hours)} Minutes: ${Math.abs(flightData.duration.minutes)}`);
+      $('#summaryCard').attr('data-return', JSON.stringify(flightData));
+      $('#returnDuration').text(`Hours: ${hours} Minutes: ${minutes}`);
     }
     const time = moment();
     const depDuration = JSON.parse($('#totalDuration').attr('data-deptime'));
