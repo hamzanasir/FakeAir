@@ -61,16 +61,32 @@
                <input name="departuredate" type="date" class="form-control" id="departing" placeholder="Departing Date">
              </div>
              <div id="returning-blk" class="form-group col-sm-12 col-md-3">
-               <label for="returning">Arriving</label>
+               <label for="returning">Returning</label>
                <input name="returndate" type="date" class="form-control" id="returning" placeholder="Returning Date">
              </div>
              <div class="form-group col-sm-10 col-md-2">
                <label for="seats">Number of Seats</label>
-               <input name="seats" type="number" class="form-control" id="seats" placeholder="Seats">
+               <select name="seats" type="number" class="form-control" id="seats" placeholder="Seats">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+               </select>
              </div>
              <div class="form-group col-sm-10 col-md-2">
-               <label for="connections">Connections</label>
-               <input name="connections" type="number" class="form-control" id="connections" placeholder="Connections">
+               <label for="connections">Min Connections</label>
+               <select name="connections" class="form-control" id="connections" placeholder="Connections">
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+               </select>
              </div>
              <div id="toggle-btn" class="form-group col-sm-2 col-md-2">
                <input id="toggle-one" name="return" checked type="checkbox" data-onstyle="primary" data-offstyle="info">
