@@ -292,3 +292,24 @@ app.get('/search', (req, res) => {
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('The FakeAir Server Has Started!'); // eslint-disable-line no-console
 });
+
+app.get('/manage', (req, response) => {
+  response.render('manage.ejs');
+});
+// const client = new Client({
+// connectionString: process.env.DATABASE_URL,
+// ssl,
+// });
+
+// client.connect();
+// const query = 'SELECT iata, name, state, city, country FROM airport';
+// client.query(query, (err, airport) => {
+// if (err) {
+// res.render('customer');
+// console.log(err.stack); // eslint-disable-line no-console
+// } else {
+// res.render('customer', { airport: airport.rows });
+// }
+// client.end();
+// });
+// });

@@ -126,3 +126,24 @@ fieldset[disabled] .btn-info.active {
     margin-top: 3vh;
   }
 }
+
+/*customer manage page*/
+#managelabel {
+  font-size: 1rem;
+  margin-right: 5px;
+  font-family: 'Dosis', sans-serif;
+}
+
+.square {
+  width: 70%;
+  float: right;
+  margin-right: 5%;
+}
+
+.sidenav {
+    height: 100%;
+    width: 23%;
+    background-color: #DCDCDC;
+    float: left;
+    padding-bottom: 10px;
+}
