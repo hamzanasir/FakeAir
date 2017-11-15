@@ -9,28 +9,6 @@ const flash = require('connect-flash');
 const url = require('url');
 const nodemailer = require('nodemailer');
 
-
-function confirmation(email) {
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'fakeair01@gmail.com',
-      pass: 'fakeairfakeair',
-    },
-  });
-
-  const mailOptions = {
-    from: 'fakeair01@gmail.com',
-    to: email,
-    subject: 'FLight Confirmation',
-    text: 'It is to notify the confirmation of your flight, We look forward to fly with you!',
-  };
-
-  transporter.sendMail(mailOptions);
-}
-
-confirmation('mkhan62@hawk.iit.edu');
-
 const ssl = (process.env.NODE_ENV === 'production');
 
 const app = express();
@@ -51,6 +29,25 @@ app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   next();
 });
+
+function confirmation(email, cnumber, callback) { // eslint-disable-line
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'fakeair01@gmail.com',
+      pass: 'fakeairfakeair',
+    },
+  });
+
+  const mailOptions = {
+    from: 'fakeair01@gmail.com',
+    to: email,
+    subject: 'Flight Confirmation',
+    html: `<h1>Fake Air</h1><p>Thank you for booking with us! It is to notify that your bookinng has been confirmed. Your flight confirmation number is: ${cnumber} </p>`,
+  };
+
+  transporter.sendMail(mailOptions, callback);
+}
 
 function tConvert(time) {
   // Check correct time format and split into components
