@@ -22,7 +22,7 @@ function confirmation(email) {
   const mailOptions = {
     from: 'fakeair01@gmail.com',
     to: email,
-    subject: 'Sending Email using Node.js',
+    subject: 'FLight Confirmation',
     text: 'It is to notify the confirmation of your flight, We look forward to fly with you!',
   };
 
