@@ -7,6 +7,29 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const url = require('url');
+const nodemailer = require('nodemailer');
+
+
+function confirmation(email) {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'fakeair01@gmail.com',
+      pass: 'fakeairfakeair',
+    },
+  });
+
+  const mailOptions = {
+    from: 'fakeair01@gmail.com',
+    to: email,
+    subject: 'Sending Email using Node.js',
+    text: 'It is to notify the confirmation of your flight, We look forward to fly with you!',
+  };
+
+  transporter.sendMail(mailOptions);
+}
+
+confirmation('mkhan62@hawk.iit.edu');
 
 const ssl = (process.env.NODE_ENV === 'production');
 
