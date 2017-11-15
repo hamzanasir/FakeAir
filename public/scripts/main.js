@@ -1,5 +1,14 @@
 /* global document, $, moment */
 
+function showError(err) {
+  if (!err) {
+    $('#flighterror').hide();
+    return;
+  }
+  $('#flighterror').text(err);
+  $('#flighterror').show('fast');
+}
+
 $(document).ready(() => {
   $('#loginModal').modal({ backdrop: 'static', keyboard: false });
   $('[data-toggle="popover"]').popover();
@@ -90,5 +99,28 @@ $(document).ready(() => {
     time.add(returnDuration.hours, 'hours');
     const timeString = `${time.get('day') === 0 ? '' : `Days: ${time.get('day')} `} Hours: ${time.get('hour')} Minutes: ${time.get('minute')}`;
     $('#totalDuration').text(timeString);
+  });
+
+  $('#bookButton').click(() => {
+    const returnState = $('#summaryCard').data('returnState');
+    const departState = $('#summaryCard').attr('data-depart') === '';
+    const returnS = $('#summaryCard').attr('data-return') === '';
+    if (returnState) {
+      if (departState && returnS) {
+        showError('Please select a departing and returning flight.');
+      } else if (departState) {
+        showError('Please select a departing flight.');
+      } else if (returnS) {
+        showError('Please select a returning flight.');
+      } else {
+        showError(false);
+      }
+    } else {
+      if (departState) { //eslint-disable-line
+        showError('Please select a departing flight.');
+      } else {
+        showError(false);
+      }
+    }
   });
 });

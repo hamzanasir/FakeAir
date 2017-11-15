@@ -1,6 +1,10 @@
 <% include partials/header %>
 
 <div class="container">
+  <h4 id="flighterror" style="display:none; margin-top: 2vh;" class="alert alert-info" role="alert">
+    This is a info alert—check it out!
+  </h4>
+
   <div id="searchrow" class="row">
     <div class="col-md-8">
       <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
@@ -125,7 +129,7 @@
 
     <div id="summary-column" class="col-md-4">
 
-      <div id="summaryCard" data-depart="" data-return="" class="card">
+      <div id="summaryCard" data-depart="" data-return="" data-return-state="<%= returnState %>" class="card">
         <h3 class="card-header">Trip Summary</h3>
         <div class="card-body">
           <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
@@ -147,7 +151,7 @@
             <p id="totalDuration" data-deptime="" data-returntime="" class="card-text text-right">10 hours.</p>
             <h5 class="card-text tripBold">Price:</h5>
             <p class="card-text text-right">$1000.98</p>
-            <a href="#" class="btn btn-primary">Book</a>
+            <button id="bookButton" class="btn btn-primary">Book</button>
           <% } %>
         </div>
       </div>
@@ -155,14 +159,13 @@
     </div>
   </div>
 </div>
+
 <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
 <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
 <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min.js">
-
-</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min.js"></script>
 
 <script type="text/javascript">
   var average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;

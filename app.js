@@ -221,6 +221,7 @@ app.get('/search', (req, res) => {
   const userData = req.query;
   const depAirport = userData.departureairport;
   const arrAirport = userData.arrivalairport;
+  const returnState = userData.return === 'on';
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
 
@@ -266,7 +267,7 @@ app.get('/search', (req, res) => {
     } else {
       searchResults.depart = parseData(result.rows);
     }
-    if (userData.return === 'on' && !err) {
+    if (returnState && !err) {
       query.values = [
         `${userData.arrivalairport}%`,
         `%${userData.departureairport}`,
@@ -280,36 +281,19 @@ app.get('/search', (req, res) => {
           searchResults.return = parseData(result1.rows);
         }
         client.end();
-        res.render('search', { searchResults });
+        res.render('search', { searchResults, returnState });
       });
     } else {
       client.end();
-      res.render('search', { searchResults });
+      res.render('search', { searchResults, returnState });
     }
   });
+});
+
+app.get('/manage', (req, response) => {
+  response.render('manage');
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('The FakeAir Server Has Started!'); // eslint-disable-line no-console
 });
-
-app.get('/manage', (req, response) => {
-  response.render('manage.ejs');
-});
-// const client = new Client({
-// connectionString: process.env.DATABASE_URL,
-// ssl,
-// });
-
-// client.connect();
-// const query = 'SELECT iata, name, state, city, country FROM airport';
-// client.query(query, (err, airport) => {
-// if (err) {
-// res.render('customer');
-// console.log(err.stack); // eslint-disable-line no-console
-// } else {
-// res.render('customer', { airport: airport.rows });
-// }
-// client.end();
-// });
-// });
