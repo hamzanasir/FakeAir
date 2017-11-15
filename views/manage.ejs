@@ -17,39 +17,52 @@
           <div class="card-text tripBold" style="border-bottom: 1px dotted">Payment</div> <br><br>
         </div>
      </div>
-    <div class="square" role="tablelist">
-      <div class="card-header" role="tab" id="heading">
+    <div role="tablelist">
         <h5 class="mb-0">
-          <div class="">
-            <label for "first_name" id="managelabel"> <h5>First Name</h5>
-              <input type="text" name="first_name" placeholder="First Name" size="20px" style="font-size: 14pt" required/>
-            </label>
-            <label for "last_name" id="managelabel"> <h5>Last Name</h5>
-              <input type="text" name="last_name" placeholder="Last Name" size = "20px" style="font-size: 14pt" required/>
-            </label>
-            <label for "emal" id="managelabel"> <h5>Email</h5>
-              <input type="text" name="email" placeholder="Email" size="45px" required/>
-            </label>
-          </div>
-          <div class="state p-success" style="margin-top: 5px">
-            <h5> Address </h5>
-            <label for "country" id="managelabel"> <h5>Country</h5>
-              <input type="text" name="country" placeholder="Country" size="20px" style="font-size: 14pt" required/> <br>
-            </label> <br>
-            <label for "streetNum" "streetName" id="managelabel"> <h5>Street</h5>
-                <input type="text" name="streetNum" placeholder="Street Number" size="20px" style="font-size: 14pt" required/>
-                <input type="text" name="streetName" placeholder="Street Name" size = "20px" style="font-size: 14pt" required/>
-            </label> <br>
-            <label for "city" id="managelabel"> <h5>City</h5>
-              <input type="text" name="city" placeholder="city" size="20px" style="font-size: 14pt" required/>
-            </label>
-            <label for "state" id="managelabel"> <h5>State</h5>
-              <input type="text" name="state" placeholder="state" size="20px" style="font-size: 14pt">
-            </label>
-            <label for "zipcode" id="managelabel"> <h5>Zipcode</h5>
-              <input type="text" name="zipcode" placeholder="zipcode" size="20px" style="font-size: 14pt" required/>
-            </label>
-          </div>
+          <form class="square">
+            <div class='form-group'>
+              <label for "first_name" id="managelabel"> <h5>First Name</h5>
+                <input type="text" name="first_name" placeholder="First Name" size="20px" style="font-size: 14pt" required/>
+              </label>
+            </div>
+            <div class='form-group'>
+              <label for "last_name" id="managelabel"> <h5>Last Name</h5>
+                <input type="text" name="last_name" placeholder="Last Name" size = "20px" style="font-size: 14pt" required/>
+              </label>
+            </div>
+            <div class='form-group'>
+              <label for "emal" id="managelabel"> <h5>Email</h5>
+                <input type="email" name="email" placeholder="Email" size="45px" required/>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for "country" id="managelabel"> <h5>Country</h5>
+                <input type="text" name="country" placeholder="Country" size="20px" style="font-size: 14pt" required/> <br>
+              </label>
+            </div>
+            <div>
+              <label for "streetNum" "streetName" id="managelabel"> <h5>Street</h5>
+                  <input type="text" name="streetNum" placeholder="Street Number" size="20px" style="font-size: 14pt" required/>
+                  <input type="text" name="streetName" placeholder="Street Name" size = "40px" style="font-size: 14pt" required/>
+              </label> <br>
+            </div>
+            <div class="form-group">
+              <label for "city" id="managelabel"> <h5>City</h5>
+                <input type="text" name="city" placeholder="city" size="20px" style="font-size: 14pt" required/>
+              </label>
+            </div>
+            <div class="form-group">
+              <label for "state" id="managelabel"> <h5>State</h5>
+                <input type="text" name="state" placeholder="state" size="20px" style="font-size: 14pt">
+              </label>
+            </div>
+            <div class="form-group">
+              <label for "zipcode" id="managelabel"> <h5>Zipcode</h5>
+                <input type="text" name="zipcode" placeholder="zipcode" size="20px" style="font-size: 14pt" required/>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-primary">Change</button>
+          </form>
         </h5>
       </div>
     </div>
