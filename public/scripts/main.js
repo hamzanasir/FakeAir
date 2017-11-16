@@ -105,6 +105,9 @@ $(document).ready(() => {
     const returnState = $('#summaryCard').data('returnState');
     const departState = $('#summaryCard').attr('data-depart') === '';
     const returnS = $('#summaryCard').attr('data-return') === '';
+    const seats = $('#summaryCard').data('seats');
+    const flightData = {};
+
     if (returnState) {
       if (departState && returnS) {
         showError('Please select a departing and returning flight.');
@@ -114,12 +117,21 @@ $(document).ready(() => {
         showError('Please select a returning flight.');
       } else {
         showError(false);
+        flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
+        flightData.return = JSON.parse($('#summaryCard').attr('data-return'));
+        flightData.seats = seats;
+        flightData.returnState = returnState;
+        $.get('/book', flightData);
       }
     } else {
       if (departState) { //eslint-disable-line
         showError('Please select a departing flight.');
       } else {
         showError(false);
+        flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
+        flightData.seats = seats;
+        flightData.returnState = returnState;
+        $.get('/book', flightData);
       }
     }
   });

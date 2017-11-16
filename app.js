@@ -222,6 +222,7 @@ app.get('/search', (req, res) => {
   const depAirport = userData.departureairport;
   const arrAirport = userData.arrivalairport;
   const returnState = userData.return === 'on';
+  const seats = parseInt(userData.seats, 10);
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
 
@@ -281,17 +282,24 @@ app.get('/search', (req, res) => {
           searchResults.return = parseData(result1.rows);
         }
         client.end();
-        res.render('search', { searchResults, returnState });
+        res.render('search', { searchResults, returnState, seats });
       });
     } else {
       client.end();
-      res.render('search', { searchResults, returnState });
+      res.render('search', { searchResults, returnState, seats });
     }
   });
 });
 
-app.get('/manage', (req, response) => {
-  response.render('manage');
+// req.query will contain the flight data that the user has sent.
+// Console.log it to see what it looks like
+app.get('/book', (req, res) => {
+  // book.ejs has not yet been created. Make sure that it exists in the views directory
+  res.render('book');
+});
+
+app.get('/manage', (req, res) => {
+  res.render('manage');
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
