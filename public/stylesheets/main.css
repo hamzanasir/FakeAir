@@ -142,9 +142,9 @@ fieldset[disabled] .btn-info.active {
     margin-top: 3vh;
   }
 
-  html,
   body {
   	overflow: scroll;
+    height: 100%;
   }
 
   #avPopup {

@@ -2,8 +2,13 @@
 
 function showError(err) {
   if (!err) {
-    $('#flighterror').hide();
     return;
+  }
+  if ($(document).width() <= 500) {
+    $('html, body').animate({ scrollTop: 0 }, 'slow', () => {
+      $('#avPopup p').text(err);
+      avgrund.activate('stack');
+    });
   }
   $('#avPopup p').text(err);
   avgrund.activate('stack');
