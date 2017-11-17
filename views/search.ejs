@@ -1,10 +1,6 @@
 <% include partials/header %>
 
 <div class="container">
-  <h4 id="flighterror" style="display:none; margin-top: 2vh;" class="alert alert-info" role="alert">
-    This is a info alert—check it out!
-  </h4>
-
   <div id="searchrow" class="row">
     <div class="col-md-8">
       <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
@@ -159,7 +155,22 @@
     </div>
   </div>
 </div>
+<div class="avgrund-cover"></div>
 
+<aside id='avPopup' class="avgrund-popup">
+	<h2 class="text-center">Error</h2>
+  <hr style="margin-top : 0rem;">
+	<p></p>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+      <button onclick="avgrund.deactivate();" class="btn btn-danger">Close</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</aside>
+
+<script src="/scripts/avgrund.js"></script>
 <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
 <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
 <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>

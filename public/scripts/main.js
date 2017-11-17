@@ -1,12 +1,12 @@
-/* global document, $, moment */
+/* global document, $, moment, avgrund */
 
 function showError(err) {
   if (!err) {
     $('#flighterror').hide();
     return;
   }
-  $('#flighterror').text(err);
-  $('#flighterror').show('fast');
+  $('#avPopup p').text(err);
+  avgrund.activate('stack');
 }
 
 $(document).ready(() => {
