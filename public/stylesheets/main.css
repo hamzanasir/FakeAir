@@ -1,6 +1,6 @@
 html,
 body {
-	height: 100%;
+  height: 100%;
 	overflow: hidden;
 }
 
@@ -140,6 +140,11 @@ fieldset[disabled] .btn-info.active {
 @media only screen and (max-width: 500px) {
   #summary-column {
     margin-top: 3vh;
+  }
+
+  html,
+  body {
+  	overflow: scroll;
   }
 
   #avPopup {
