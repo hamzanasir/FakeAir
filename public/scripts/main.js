@@ -5,7 +5,7 @@ function showError(err) {
     return;
   }
   if ($(document).width() <= 500) {
-    $('html, body').animate({ scrollTop: 0 }, 'slow', () => {
+    $('html, body').animate({ scrollTop: 0 }, 'fast', () => {
       $('#avPopup p').text(err);
       avgrund.activate('stack');
     });

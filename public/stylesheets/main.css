@@ -1,15 +1,3 @@
-html,
-body {
-  height: 100%;
-	overflow: hidden;
-}
-
-html {
-	background-color: #222;
-	background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=);
-	background-repeat: repeat;
-}
-
 #admin-row {
   margin-top: 6vh;
 }
@@ -140,17 +128,6 @@ fieldset[disabled] .btn-info.active {
 @media only screen and (max-width: 500px) {
   #summary-column {
     margin-top: 3vh;
-  }
-
-  body {
-  	overflow: scroll;
-    height: 100%;
-  }
-
-  #avPopup {
-    width: 82vw;
-    left: 62vw;
-    margin: -39vw 0 0 -52.9vw;
   }
 }
 
