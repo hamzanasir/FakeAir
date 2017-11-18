@@ -140,4 +140,8 @@ $(document).ready(() => {
       }
     }
   });
+
+  $('#avgrundClose').click(() => {
+    avgrund.deactivate();
+  });
 });
