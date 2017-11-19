@@ -15,6 +15,10 @@ function showError(err) {
 }
 
 $(document).ready(() => {
+  $('#loadingOverlay').animate({ opacity: 0 }, 'fast', function () {
+    $(this).removeClass('loading');
+    $(this).hide();
+  });
   $('#loginModal').modal({ backdrop: 'static', keyboard: false });
   $('[data-toggle="popover"]').popover();
 
@@ -122,6 +126,9 @@ $(document).ready(() => {
         showError('Please select a returning flight.');
       } else {
         showError(false);
+        $('#loadingOverlay').addClass('loading');
+        $('#loadingOverlay').show();
+        $('#loadingOverlay').animate({ opacity: 1 }, 'fast');
         flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
         flightData.return = JSON.parse($('#summaryCard').attr('data-return'));
         flightData.seats = seats;
@@ -133,6 +140,7 @@ $(document).ready(() => {
         showError('Please select a departing flight.');
       } else {
         showError(false);
+        $('#loadingOverlay').addClass('loading');
         flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
         flightData.seats = seats;
         flightData.returnState = returnState;

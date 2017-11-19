@@ -8,10 +8,13 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css">
         <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/stylesheets/loading.css">
         <link rel="stylesheet" href="/stylesheets/landing.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
     </head>
     <body>
+
+    <div id="loadingOverlay" class="loading">Loading&#8230;</div>
 
     <div class="container">
         <div id="landing-header">
@@ -94,7 +97,7 @@
           </div>
           <div class="form-row">
             <div class="form-group col-xs-8 col-md-2 col-md-offset-5 col-xs-offset-2">
-              <button style="margin-top: 1vh;" type="submit" class="btn btn-default btn-lg btn-block">Search</button>
+              <button id="searchBtn" style="margin-top: 1vh;" type="submit" class="btn btn-default btn-lg btn-block">Search</button>
             </div>
           </div>
         </form>

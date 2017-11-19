@@ -315,7 +315,6 @@ app.get('/search', (req, res) => {
 // Console.log it to see what it looks like
 app.get('/book', (req, res) => {
   // book.ejs has not yet been created. Make sure that it exists in the views directory
-  res.render('book');
 });
 
 app.get('/manage', (req, res) => {
