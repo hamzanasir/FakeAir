@@ -239,14 +239,17 @@ app.post('/login', (req, res) => {
 
 app.get('/search', (req, res) => {
   const userData = req.query;
+  const searchResults = {};
   const depAirport = userData.departureairport;
   const arrAirport = userData.arrivalairport;
   const returnState = userData.return === 'on';
   const seats = parseInt(userData.seats, 10);
+  if (Object.keys(userData).length === 0 && userData.constructor === Object) {
+    res.render('search', { searchResults, returnState, seats });
+    return;
+  }
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
-
-  const searchResults = {};
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
