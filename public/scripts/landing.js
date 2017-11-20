@@ -1,6 +1,6 @@
-/* global document, $, window */
+/* global $, window */
 
-$(document).ready(() => {
+$(window).on('load', () => {
   $('#loadingOverlay').animate({ opacity: 0 }, 'fast', function () {
     $(this).removeClass('loading');
     $(this).hide();
