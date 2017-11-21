@@ -1,6 +1,10 @@
-/* global document, $, window */
+/* global $, window */
 
-$(document).ready(() => {
+$(window).on('load', () => {
+  $('#loadingOverlay').animate({ opacity: 0 }, 'fast', function () {
+    $(this).removeClass('loading');
+    $(this).hide();
+  });
   $('#landing-button').click(() => {
     if ($(window).width() < 500) {
       $('#landing-header').animate({ paddingTop: '5vh' }, 1000);
@@ -21,5 +25,10 @@ $(document).ready(() => {
 
   $('#toggle-one').change(() => {
     $('#returning-blk').toggle(($('#toggle-one').is(':checked')));
+  });
+  $('#searchBtn').click(() => {
+    $('#loadingOverlay').addClass('loading');
+    $('#loadingOverlay').show();
+    $('#loadingOverlay').animate({ opacity: 1 }, 'fast');
   });
 });

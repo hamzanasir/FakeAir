@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const flash = require('connect-flash');
 const url = require('url');
+const nodemailer = require('nodemailer');
 
 const ssl = (process.env.NODE_ENV === 'production');
 
@@ -28,6 +29,25 @@ app.use((req, res, next) => {
   res.locals.success = req.flash('success');
   next();
 });
+
+function confirmation(email, cnumber, callback) { // eslint-disable-line
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'fakeair01@gmail.com',
+      pass: 'fakeairfakeair',
+    },
+  });
+
+  const mailOptions = {
+    from: 'fakeair01@gmail.com',
+    to: email,
+    subject: 'Flight Confirmation',
+    html: `<h1>Fake Air</h1><p>Thank you for booking with us! It is to notify that your bookinng has been confirmed. Your flight confirmation number is: ${cnumber} </p>`,
+  };
+
+  transporter.sendMail(mailOptions, callback);
+}
 
 function tConvert(time) {
   // Check correct time format and split into components
@@ -219,12 +239,17 @@ app.post('/login', (req, res) => {
 
 app.get('/search', (req, res) => {
   const userData = req.query;
+  const searchResults = {};
   const depAirport = userData.departureairport;
   const arrAirport = userData.arrivalairport;
+  const returnState = userData.return === 'on';
+  const seats = parseInt(userData.seats, 10);
+  if (Object.keys(userData).length === 0 && userData.constructor === Object) {
+    res.render('search', { searchResults, returnState, seats });
+    return;
+  }
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
-
-  const searchResults = {};
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -266,7 +291,7 @@ app.get('/search', (req, res) => {
     } else {
       searchResults.depart = parseData(result.rows);
     }
-    if (userData.return === 'on' && !err) {
+    if (returnState && !err) {
       query.values = [
         `${userData.arrivalairport}%`,
         `%${userData.departureairport}`,
@@ -280,36 +305,26 @@ app.get('/search', (req, res) => {
           searchResults.return = parseData(result1.rows);
         }
         client.end();
-        res.render('search', { searchResults });
+        res.render('search', { searchResults, returnState, seats });
       });
     } else {
       client.end();
-      res.render('search', { searchResults });
+      res.render('search', { searchResults, returnState, seats });
     }
   });
+});
+
+// req.query will contain the flight data that the user has sent.
+// Console.log it to see what it looks like
+app.get('/book', (req, res) => {
+  const flightData = JSON.parse(req.query.data);
+  res.render('book');
+});
+
+app.get('/manage', (req, res) => {
+  res.render('manage');
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('The FakeAir Server Has Started!'); // eslint-disable-line no-console
 });
-
-app.get('/manage', (req, response) => {
-  response.render('manage.ejs');
-});
-// const client = new Client({
-// connectionString: process.env.DATABASE_URL,
-// ssl,
-// });
-
-// client.connect();
-// const query = 'SELECT iata, name, state, city, country FROM airport';
-// client.query(query, (err, airport) => {
-// if (err) {
-// res.render('customer');
-// console.log(err.stack); // eslint-disable-line no-console
-// } else {
-// res.render('customer', { airport: airport.rows });
-// }
-// client.end();
-// });
-// });

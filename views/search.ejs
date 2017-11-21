@@ -1,4 +1,4 @@
-<% include partials/header %>
+<% include partials/avgrundHeader %>
 
 <div class="container">
   <div id="searchrow" class="row">
@@ -9,16 +9,23 @@
       <hr style="margin-top: 0.3rem;">
       <% if (searchResults.depart.length !== 0) { %>
       <% searchResults.depart.forEach((flight, number) => { %>
-      <div id="accordion" role="tablist">
+      <div id="accordion" data-flight="<%= JSON.stringify(flight) %>" role="tablist">
         <div class="card">
           <div class="card-header" role="tab" id="heading<%= number %>">
             <h3 class="mb-0">
               <p class="flightitle" data-toggle="collapse" href="#collapse<%= number %>" aria-expanded="true" aria-controls="collapse<%= number %>">
                  <%= flight.path_len == 1 ? 'Direct' : `${flight.path_len} Connections` %>
               </p>
-              <div class="pretty p-icon p-round p-pulse">
-                  <input type="checkbox" />
+              <div data-flight-type="depart" id="guestclass" class="pretty p-icon p-round p-pulse" title="Guest Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+                  <input type="radio" name="radioD" />
                   <div class="state p-success">
+                      <i class="icon mdi mdi-check"></i>
+                      <label></label>
+                  </div>
+              </div>
+              <div data-flight-type="depart" id="firstclass" class="pretty p-icon p-round p-pulse" title="First Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+                  <input type="radio" name="radioD" />
+                  <div class="state p-primary">
                       <i class="icon mdi mdi-check"></i>
                       <label></label>
                   </div>
@@ -58,16 +65,23 @@
       <hr style="margin-top: 0.3rem;">
       <% if (searchResults.return.length !== 0) { %>
       <% searchResults.return.forEach((flight, number) => { %>
-      <div id="accordion" role="tablist">
+      <div id="accordion" data-flight="<%= JSON.stringify(flight) %>" role="tablist">
         <div class="card">
           <div class="card-header" role="tab" id="headingR<%= number %>">
             <h3 class="mb-0">
               <p class="flightitle" data-toggle="collapse" href="#collapseR<%= number %>" aria-expanded="true" aria-controls="collapseR<%= number %>">
                  <%= flight.path_len == 1 ? 'Direct' : `${flight.path_len} Connections` %>
               </p>
-              <div class="pretty p-icon p-round p-pulse">
-                  <input type="checkbox" />
+              <div data-flight-type="return" id="guestclass" class="pretty p-icon p-round p-pulse" title="Guest Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+                  <input type="radio" name="radioR" />
                   <div class="state p-success">
+                      <i class="icon mdi mdi-check"></i>
+                      <label></label>
+                  </div>
+              </div>
+              <div data-flight-type="return" id="firstclass" class="pretty p-icon p-round p-pulse" title="First Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+                  <input type="radio" name="radioR" />
+                  <div class="state p-primary">
                       <i class="icon mdi mdi-check"></i>
                       <label></label>
                   </div>
@@ -111,27 +125,63 @@
 
     <div id="summary-column" class="col-md-4">
 
-      <div class="card">
+      <div id="summaryCard" data-seats="<%= seats %>" data-depart="" data-return="" data-return-state="<%= returnState %>" class="card">
         <h3 class="card-header">Trip Summary</h3>
         <div class="card-body">
-          <h5 class="card-text tripBold">Trips:</h5>
-          <p class="card-text text-right">ORD -> MAD -> LHE</p>
-          <h5 class="card-text tripBold">Total duration:</h5>
-          <p class="card-text text-right">10 hours.</p>
-          <h5 class="card-text tripBold">Price:</h5>
-          <p class="card-text text-right">$1000.98</p>
-          <a href="#" class="btn btn-primary">Book</a>
+          <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
+            <% if (searchResults.depart.length !== 0) { %>
+              <h5 class="card-text tripBold">Depart Route:</h5>
+              <p id="depart" class="card-text text-right">Null</p>
+              <h5 class="card-text tripBold">Depart Duration:</h5>
+              <p id="departDuration" class="card-text text-right">Null</p>
+            <% } %>
+            <% if (searchResults.return) { %>
+              <% if (searchResults.depart.length !== 0) { %>
+                <h5 class="card-text tripBold">Return Route:</h5>
+                <p id="return" class="card-text text-right">Null</p>
+                <h5 class="card-text tripBold">Return Duration:</h5>
+                <p id="returnDuration" class="card-text text-right">Null</p>
+              <% } %>
+            <% } %>
+            <h5 class="card-text tripBold">Total duration:</h5>
+            <p id="totalDuration" data-deptime="" data-returntime="" class="card-text text-right">10 hours.</p>
+            <h5 class="card-text tripBold">Price:</h5>
+            <p class="card-text text-right">$1000.98</p>
+            <button id="bookButton" class="btn btn-primary">Book</button>
+          <% } %>
         </div>
       </div>
 
     </div>
   </div>
 </div>
+
+<form stlye="display: none;" id="toSubmit" action="/book" method="get">
+  <input type="hidden" name="data">
+</form>
+
+<div class="avgrund-cover"></div>
+
+<aside id='avPopup' class="avgrund-popup">
+	<h2 class="text-center">Error</h2>
+  <hr style="margin-top : 0rem;">
+	<p></p>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+      <button id="avgrundClose" class="btn btn-danger">Close</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</aside>
+
+<script src="/scripts/avgrund.js"></script>
 <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
 <script src="https://www.amcharts.com/lib/3/ammap.js"></script>
 <script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.2/moment.min.js"></script>
 
 <script type="text/javascript">
   var average = arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length;
@@ -183,7 +233,7 @@
         "color": "#585869",
         "animateAlongLine": true,
         "lineId": "line1",
-        "flipDirection": true,
+        "flipDirection": false,
         "loop": true,
         "scale": 0.03,
         "positionScale": 1.8
@@ -196,7 +246,7 @@
 
         "dataProvider": {
           "map": "worldLow",
-          "zoomLevel": 2.5,
+          "zoomLevel": 1.5,
           "zoomLongitude": average(longitudes<%= number %>),
           "zoomLatitude": average(latitudes<%= number %>),
 
@@ -283,7 +333,7 @@
         "color": "#585869",
         "animateAlongLine": true,
         "lineId": "line1",
-        "flipDirection": true,
+        "flipDirection": false,
         "loop": true,
         "scale": 0.03,
         "positionScale": 1.8
@@ -296,7 +346,7 @@
 
         "dataProvider": {
           "map": "worldLow",
-          "zoomLevel": 2.5,
+          "zoomLevel": 1.5,
           "zoomLongitude": average(longitudesR<%= number %>),
           "zoomLatitude": average(latitudesR<%= number %>),
 

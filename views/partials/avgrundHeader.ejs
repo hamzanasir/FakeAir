@@ -13,6 +13,32 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
         <link rel="stylesheet" href="/stylesheets/loading.css">
         <link rel="stylesheet" href="/stylesheets/main.css">
+        <style rel="stylesheet">
+          html,
+          body {
+            height: 100%;
+            overflow: hidden;
+          }
+
+          html {
+            background-color: #222;
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAGklEQVQIW2NkYGD4D8SMQAwGcAY2AbBKDBUAVuYCBQPd34sAAAAASUVORK5CYII=);
+            background-repeat: repeat;
+          }
+
+          @media only screen and (max-width: 500px) {
+            body {
+            	overflow: scroll;
+              height: 100%;
+            }
+
+            #avPopup {
+              width: 82vw;
+              left: 62vw;
+              margin: -39vw 0 0 -52.9vw;
+            }
+          }
+        </style>
         <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js" type="text/javascript" async></script>
         <script
@@ -21,7 +47,8 @@
           crossorigin="anonymous"></script>
     </head>
     <body>
-    <div id="loadingOverlay" class="loading">Loading&#8230;</div>
+
+      <div id="loadingOverlay" class="loading">Loading&#8230;</div>
 
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
        <div style="max-width: 86vw;" class="container">

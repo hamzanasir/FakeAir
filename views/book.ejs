@@ -1,0 +1,73 @@
+<% include partials/avgrundHeader %>
+
+<div class="container">
+  <div id="searchrow" class="row">
+    <div class="col-md-8">
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalLong">
+        Launch demo modal
+      </button>
+
+      <!-- Modal -->
+      <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              ...
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="summary-column" class="col-md-4">
+
+      <div id="summaryCard" data-seats="" data-depart="" data-return="" data-return-state="" class="card">
+        <h3 class="card-header">Trip Summary</h3>
+        <div class="card-body">
+            <h5 class="card-text tripBold">Depart Route:</h5>
+            <p class="card-text text-right">Null</p>
+            <h5 class="card-text tripBold">Depart Duration:</h5>
+            <p class="card-text text-right">Null</p>
+            <h5 class="card-text tripBold">Return Route:</h5>
+            <p class="card-text text-right">Null</p>
+            <h5 class="card-text tripBold">Return Duration:</h5>
+            <p class="card-text text-right">Null</p>
+            <h5 class="card-text tripBold">Total duration:</h5>
+            <p data-deptime="" data-returntime="" class="card-text text-right">10 hours.</p>
+            <h5 class="card-text tripBold">Price:</h5>
+            <p class="card-text text-right">$1000.98</p>
+            <button class="btn btn-primary">Book</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="avgrund-cover"></div>
+
+<aside id='avPopup' class="avgrund-popup">
+	<h2 class="text-center">Error</h2>
+  <hr style="margin-top : 0rem;">
+	<p></p>
+  <div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4 text-center">
+      <button id="avgrundClose" class="btn btn-danger">Close</button>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</aside>
+
+<script src="/scripts/avgrund.js"></script>
+<% include partials/footer %>
