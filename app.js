@@ -317,7 +317,8 @@ app.get('/search', (req, res) => {
 // req.query will contain the flight data that the user has sent.
 // Console.log it to see what it looks like
 app.get('/book', (req, res) => {
-  // book.ejs has not yet been created. Make sure that it exists in the views directory
+  const flightData = JSON.parse(req.query.data);
+  res.render('book');
 });
 
 app.get('/manage', (req, res) => {

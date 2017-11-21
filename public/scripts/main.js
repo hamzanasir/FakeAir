@@ -133,7 +133,8 @@ $(document).ready(() => {
         flightData.return = JSON.parse($('#summaryCard').attr('data-return'));
         flightData.seats = seats;
         flightData.returnState = returnState;
-        $.get('/book', flightData);
+        $('#toSubmit input').val(JSON.stringify(flightData));
+        $('#toSubmit').submit();
       }
     } else {
       if (departState) { //eslint-disable-line
@@ -144,7 +145,8 @@ $(document).ready(() => {
         flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
         flightData.seats = seats;
         flightData.returnState = returnState;
-        $.get('/book', flightData);
+        $('#toSubmit input').val(JSON.stringify(flightData));
+        $('#toSubmit').submit();
       }
     }
   });

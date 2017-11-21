@@ -1,4 +1,4 @@
-<% include partials/searchHeader %>
+<% include partials/avgrundHeader %>
 
 <div class="container">
   <div id="searchrow" class="row">
@@ -155,6 +155,11 @@
     </div>
   </div>
 </div>
+
+<form stlye="display: none;" id="toSubmit" action="/book" method="get">
+  <input type="hidden" name="data">
+</form>
+
 <div class="avgrund-cover"></div>
 
 <aside id='avPopup' class="avgrund-popup">
