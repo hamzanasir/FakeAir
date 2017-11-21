@@ -138,3 +138,8 @@ fieldset[disabled] .btn-info.active {
     float: left;
     padding-bottom: 10px;
 }
+
+.button:hover {
+    background-color: #555555;
+    color: white;
+}
