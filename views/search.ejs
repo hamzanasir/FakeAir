@@ -125,7 +125,7 @@
 
     <div id="summary-column" class="col-md-4">
 
-      <div id="summaryCard" data-seats="<%= seats %>" data-total-price="0" data-depart="" data-return="" data-return-state="<%= returnState %>" class="card">
+      <div id="summaryCard" data-depart-class="" data-return-class="" data-seats="<%= seats %>" data-total-price="0" data-depart="" data-return="" data-return-state="<%= returnState %>" class="card">
         <h3 class="card-header">Trip Summary</h3>
         <div class="card-body">
           <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>

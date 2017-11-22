@@ -76,7 +76,8 @@ $(document).ready(() => {
     const flightData = $(this).closest('#accordion').data('flight');
     const hours = Math.abs(flightData.duration.hours);
     const minutes = flightData.duration.minutes ? Math.abs(flightData.duration.minutes) : 0;
-    const price = ($(this).data('price')) * ($('#summaryCard').data('seats'));
+    const price = $(this).data('price');
+    const classType = $(this).attr('id');
 
     $('#summaryCard').addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
       $('#summaryCard').removeClass('animated pulse');
@@ -90,6 +91,7 @@ $(document).ready(() => {
         minutes,
       }));
       $('#summaryCard').attr('data-depart', JSON.stringify(flightData));
+      $('#summaryCard').attr('data-depart-class', classType);
       $('#departDuration').attr('data-time', `Hours: ${hours} Minutes: ${minutes}`);
       $('#departDuration').text(`Hours: ${hours} Minutes: ${minutes}`);
     } else {
@@ -100,6 +102,7 @@ $(document).ready(() => {
         minutes,
       }));
       $('#summaryCard').attr('data-return', JSON.stringify(flightData));
+      $('#summaryCard').attr('data-return-class', classType);
       $('#returnDuration').attr('data-time', `Hours: ${hours} Minutes: ${minutes}`);
       $('#returnDuration').text(`Hours: ${hours} Minutes: ${minutes}`);
     }
@@ -113,8 +116,8 @@ $(document).ready(() => {
     time.add(returnDuration.hours, 'hours');
     const timeString = `${time.get('day') === 0 ? '' : `Days: ${time.get('day')} `} Hours: ${time.get('hour')} Minutes: ${time.get('minute')}`;
     $('#totalDuration').text(timeString);
-    const departPrice = $('#depart').attr('data-price') === '' ? 0 : parseFloat($('#depart').attr('data-price'));
-    const returnPrice = $('#return').attr('data-price') === '' ? 0 : parseFloat($('#return').attr('data-price'));
+    const departPrice = ($('#depart').attr('data-price') === '') || ($('#depart').attr('data-price') === undefined) ? 0 : parseFloat($('#depart').attr('data-price'));
+    const returnPrice = ($('#return').attr('data-price') === '') || ($('#return').attr('data-price') === undefined) ? 0 : parseFloat($('#return').attr('data-price'));
     $('#summaryCard').attr('data-total-price', departPrice + returnPrice);
     $('#totalPrice').text(`$${departPrice + returnPrice}`);
   });
@@ -127,8 +130,12 @@ $(document).ready(() => {
     const price = $('#summaryCard').data('totalPrice');
     const departTime = $('#departDuration').data('time');
     const returnTime = $('#returnDuration').data('time');
+    const departClass = $('#summaryCard').data('departClass');
+    const returnClass = $('#summaryCard').data('returnClass');
     const totalDuration = $('#totalDuration').text();
     const flightData = {};
+    let i;
+    let j;
 
     if (returnState) {
       if (departState && returnS) {
@@ -144,11 +151,19 @@ $(document).ready(() => {
         $('#loadingOverlay').animate({ opacity: 1 }, 'fast');
         flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
         flightData.return = JSON.parse($('#summaryCard').attr('data-return'));
+        for (i = 0; i < flightData.depart.serialid.length; i += 1) {
+          flightData.depart.serialid[i] = parseInt(flightData.depart.serialid[i], 10);
+        }
+        for (j = 0; j < flightData.return.serialid.length; j += 1) {
+          flightData.return.serialid[j] = parseInt(flightData.return.serialid[j], 10);
+        }
         flightData.seats = seats;
         flightData.returnState = returnState;
         flightData.totalPrice = price;
         flightData.departTime = departTime;
         flightData.returnTime = returnTime;
+        flightData.depart.departClass = departClass;
+        flightData.return.returnClass = returnClass;
         flightData.totalDuration = totalDuration;
         $('#toSubmit input').val(JSON.stringify(flightData));
         $('#toSubmit').submit();
@@ -160,10 +175,14 @@ $(document).ready(() => {
         showError(false);
         $('#loadingOverlay').addClass('loading');
         flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
+        for (i = 0; i < flightData.depart.serialid.length; i += 1) {
+          flightData.depart.serialid[i] = parseInt(flightData.depart.serialid[i], 10);
+        }
         flightData.seats = seats;
         flightData.returnState = returnState;
         flightData.totalPrice = price;
         flightData.departTime = departTime;
+        flightData.depart.departClass = departClass;
         flightData.totalDuration = totalDuration;
         $('#toSubmit input').val(JSON.stringify(flightData));
         $('#toSubmit').submit();

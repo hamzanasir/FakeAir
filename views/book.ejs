@@ -4,6 +4,7 @@
   <div id="searchrow" class="row">
     <div class="col-md-8">
       <form id="finalBook" action="/book" method="post">
+        <input type="hidden" name="data" value="<%= JSON.stringify(flightData) %>">
         <% for (i = 1; i <= flightData.seats; i++) { %>
           <!-- Button trigger modal -->
           <button id="passengerBtn" type="button" class="btn btn-dark btn-lg btn-block" data-toggle="modal" data-target="#passmodal<%= i %>">

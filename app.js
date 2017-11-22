@@ -322,7 +322,12 @@ app.get('/book', (req, res) => {
 });
 
 app.post('/book', (req, res) => {
-  //console.log(req.body);
+  const flightData = JSON.parse(req.body.data);
+  const passengerInfo = req.body.passenger1;
+  const creditInfo = req.body.credit
+  console.log(flightData);
+  console.log(passengerInfo);
+  console.log(creditInfo);
 });
 
 app.get('/manage', (req, res) => {
