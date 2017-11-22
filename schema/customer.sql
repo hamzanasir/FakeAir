@@ -8,6 +8,5 @@ CREATE TABLE customer (
   address2 varchar,
 
   primary key (email),
-  foreign key (home_airport) references airport(iata),
-  foreign key (email) references payment(email)
+  foreign key (home_airport) references airport(iata)
 )

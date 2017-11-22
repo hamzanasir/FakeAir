@@ -10,5 +10,5 @@ create table booking(
   foreign key(email, card) references payment(email, card),
   foreign key(email) references customer(email),
   foreign key (flightID) references flight(flightID),
-  check(class = 'Economy' or class = 'First')
+  check(class = 'guestclass' or class = 'firstclass')
 )
