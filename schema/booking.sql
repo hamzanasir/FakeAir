@@ -1,6 +1,7 @@
 create table booking(
+  confirmation varchar,
   email varchar,
-  flightID int,
+  flightID integer[],
   class varchar,
   card char(16),
 

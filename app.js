@@ -318,7 +318,11 @@ app.get('/search', (req, res) => {
 // Console.log it to see what it looks like
 app.get('/book', (req, res) => {
   const flightData = JSON.parse(req.query.data);
-  res.render('book');
+  res.render('book', { flightData });
+});
+
+app.post('/book', (req, res) => {
+  //console.log(req.body);
 });
 
 app.get('/manage', (req, res) => {

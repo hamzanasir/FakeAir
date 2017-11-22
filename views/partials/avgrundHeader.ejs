@@ -14,10 +14,13 @@
         <link rel="stylesheet" href="/stylesheets/loading.css">
         <link rel="stylesheet" href="/stylesheets/main.css">
         <style rel="stylesheet">
-          html,
-          body {
+          html {
             height: 100%;
             overflow: hidden;
+          }
+          body {
+            height: 100%;
+            overflow-y: scroll;
           }
 
           html {
@@ -27,11 +30,6 @@
           }
 
           @media only screen and (max-width: 500px) {
-            body {
-            	overflow: scroll;
-              height: 100%;
-            }
-
             #avPopup {
               width: 82vw;
               left: 62vw;

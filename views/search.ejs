@@ -16,14 +16,14 @@
               <p class="flightitle" data-toggle="collapse" href="#collapse<%= number %>" aria-expanded="true" aria-controls="collapse<%= number %>">
                  <%= flight.path_len == 1 ? 'Direct' : `${flight.path_len} Connections` %>
               </p>
-              <div data-flight-type="depart" id="guestclass" class="pretty p-icon p-round p-pulse" title="Guest Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+              <div data-flight-type="depart" id="guestclass" class="pretty p-icon p-round p-pulse" title="Guest Class" data-price="<%= flight.econpricesum %>" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $<%= flight.econpricesum %>">
                   <input type="radio" name="radioD" />
                   <div class="state p-success">
                       <i class="icon mdi mdi-check"></i>
                       <label></label>
                   </div>
               </div>
-              <div data-flight-type="depart" id="firstclass" class="pretty p-icon p-round p-pulse" title="First Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+              <div data-flight-type="depart" id="firstclass" class="pretty p-icon p-round p-pulse" title="First Class" data-price="<%= flight.firstpricesum %>" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $<%= flight.firstpricesum %>">
                   <input type="radio" name="radioD" />
                   <div class="state p-primary">
                       <i class="icon mdi mdi-check"></i>
@@ -72,14 +72,14 @@
               <p class="flightitle" data-toggle="collapse" href="#collapseR<%= number %>" aria-expanded="true" aria-controls="collapseR<%= number %>">
                  <%= flight.path_len == 1 ? 'Direct' : `${flight.path_len} Connections` %>
               </p>
-              <div data-flight-type="return" id="guestclass" class="pretty p-icon p-round p-pulse" title="Guest Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+              <div data-flight-type="return" id="guestclass" class="pretty p-icon p-round p-pulse" data-price="<%= flight.econpricesum %>" title="Guest Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $<%= flight.econpricesum %>">
                   <input type="radio" name="radioR" />
                   <div class="state p-success">
                       <i class="icon mdi mdi-check"></i>
                       <label></label>
                   </div>
               </div>
-              <div data-flight-type="return" id="firstclass" class="pretty p-icon p-round p-pulse" title="First Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $1000">
+              <div data-flight-type="return" id="firstclass" class="pretty p-icon p-round p-pulse" data-price="<%= flight.firstpricesum %>" title="First Class" data-toggle="popover" data-trigger="hover" data-placement="top" data-html="true" data-content="<strong>Price:</strong> $<%= flight.firstpricesum %>">
                   <input type="radio" name="radioR" />
                   <div class="state p-primary">
                       <i class="icon mdi mdi-check"></i>
@@ -125,29 +125,29 @@
 
     <div id="summary-column" class="col-md-4">
 
-      <div id="summaryCard" data-seats="<%= seats %>" data-depart="" data-return="" data-return-state="<%= returnState %>" class="card">
+      <div id="summaryCard" data-seats="<%= seats %>" data-total-price="0" data-depart="" data-return="" data-return-state="<%= returnState %>" class="card">
         <h3 class="card-header">Trip Summary</h3>
         <div class="card-body">
           <% if (!(Object.keys(searchResults).length === 0 && searchResults.constructor === Object)) { %>
             <% if (searchResults.depart.length !== 0) { %>
               <h5 class="card-text tripBold">Depart Route:</h5>
-              <p id="depart" class="card-text text-right">Null</p>
+              <p id="depart" data-price="" class="card-text text-right">Null</p>
               <h5 class="card-text tripBold">Depart Duration:</h5>
-              <p id="departDuration" class="card-text text-right">Null</p>
+              <p id="departDuration" data-time="" class="card-text text-right">Null</p>
             <% } %>
             <% if (searchResults.return) { %>
               <% if (searchResults.depart.length !== 0) { %>
                 <h5 class="card-text tripBold">Return Route:</h5>
-                <p id="return" class="card-text text-right">Null</p>
+                <p id="return" data-price="" class="card-text text-right">Null</p>
                 <h5 class="card-text tripBold">Return Duration:</h5>
-                <p id="returnDuration" class="card-text text-right">Null</p>
+                <p id="returnDuration" data-time="" class="card-text text-right">Null</p>
               <% } %>
             <% } %>
             <h5 class="card-text tripBold">Total duration:</h5>
             <p id="totalDuration" data-deptime="" data-returntime="" class="card-text text-right">10 hours.</p>
             <h5 class="card-text tripBold">Price:</h5>
-            <p class="card-text text-right">$1000.98</p>
-            <button id="bookButton" class="btn btn-primary">Book</button>
+            <p id="totalPrice" class="card-text text-right">$ 0</p>
+            <button id="bookButton" class="btn btn-dark btn-block">Book</button>
           <% } %>
         </div>
       </div>

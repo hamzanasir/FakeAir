@@ -76,6 +76,7 @@ $(document).ready(() => {
     const flightData = $(this).closest('#accordion').data('flight');
     const hours = Math.abs(flightData.duration.hours);
     const minutes = flightData.duration.minutes ? Math.abs(flightData.duration.minutes) : 0;
+    const price = ($(this).data('price')) * ($('#summaryCard').data('seats'));
 
     $('#summaryCard').addClass('animated pulse').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', () => {
       $('#summaryCard').removeClass('animated pulse');
@@ -83,19 +84,23 @@ $(document).ready(() => {
 
     if ($(this).data('flightType') === 'depart') {
       $('#depart').html(flightData.route.join('<i id="arrow" class="material-icons">arrow_forward</i>'));
+      $('#depart').attr('data-price', price);
       $('#totalDuration').attr('data-deptime', JSON.stringify({
         hours,
         minutes,
       }));
       $('#summaryCard').attr('data-depart', JSON.stringify(flightData));
+      $('#departDuration').attr('data-time', `Hours: ${hours} Minutes: ${minutes}`);
       $('#departDuration').text(`Hours: ${hours} Minutes: ${minutes}`);
     } else {
       $('#return').html(flightData.route.reverse().join('<i id="arrow" class="material-icons">arrow_back</i>'));
+      $('#return').attr('data-price', price);
       $('#totalDuration').attr('data-returntime', JSON.stringify({
         hours,
         minutes,
       }));
       $('#summaryCard').attr('data-return', JSON.stringify(flightData));
+      $('#returnDuration').attr('data-time', `Hours: ${hours} Minutes: ${minutes}`);
       $('#returnDuration').text(`Hours: ${hours} Minutes: ${minutes}`);
     }
     const time = moment();
@@ -108,6 +113,10 @@ $(document).ready(() => {
     time.add(returnDuration.hours, 'hours');
     const timeString = `${time.get('day') === 0 ? '' : `Days: ${time.get('day')} `} Hours: ${time.get('hour')} Minutes: ${time.get('minute')}`;
     $('#totalDuration').text(timeString);
+    const departPrice = $('#depart').attr('data-price') === '' ? 0 : parseFloat($('#depart').attr('data-price'));
+    const returnPrice = $('#return').attr('data-price') === '' ? 0 : parseFloat($('#return').attr('data-price'));
+    $('#summaryCard').attr('data-total-price', departPrice + returnPrice);
+    $('#totalPrice').text(`$${departPrice + returnPrice}`);
   });
 
   $('#bookButton').click(() => {
@@ -115,6 +124,10 @@ $(document).ready(() => {
     const departState = $('#summaryCard').attr('data-depart') === '';
     const returnS = $('#summaryCard').attr('data-return') === '';
     const seats = $('#summaryCard').data('seats');
+    const price = $('#summaryCard').data('totalPrice');
+    const departTime = $('#departDuration').data('time');
+    const returnTime = $('#returnDuration').data('time');
+    const totalDuration = $('#totalDuration').text();
     const flightData = {};
 
     if (returnState) {
@@ -133,6 +146,10 @@ $(document).ready(() => {
         flightData.return = JSON.parse($('#summaryCard').attr('data-return'));
         flightData.seats = seats;
         flightData.returnState = returnState;
+        flightData.totalPrice = price;
+        flightData.departTime = departTime;
+        flightData.returnTime = returnTime;
+        flightData.totalDuration = totalDuration;
         $('#toSubmit input').val(JSON.stringify(flightData));
         $('#toSubmit').submit();
       }
@@ -145,10 +162,17 @@ $(document).ready(() => {
         flightData.depart = JSON.parse($('#summaryCard').attr('data-depart'));
         flightData.seats = seats;
         flightData.returnState = returnState;
+        flightData.totalPrice = price;
+        flightData.departTime = departTime;
+        flightData.totalDuration = totalDuration;
         $('#toSubmit input').val(JSON.stringify(flightData));
         $('#toSubmit').submit();
       }
     }
+  });
+
+  $('#submitPass').click(() => {
+    $('#finalBook').submit();
   });
 
   $('#avgrundClose').click(() => {

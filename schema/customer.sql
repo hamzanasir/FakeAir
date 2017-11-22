@@ -1,9 +1,9 @@
 CREATE TABLE customer (
-  email varchar unique,
+  email varchar,
   first_name varchar,
   last_name varchar,
-  billing_address address,
-  home_airport char(3),
+  passport varchar,
+  dob date,
   mileages int,
 
   primary key (email),
