@@ -130,6 +130,7 @@ app.get('/admin', (req, res) => {
         if (err1) {
           console.log(err.stack); // eslint-disable-line no-console
         } else {
+          console.log(airportcodes, result1.rows);
           res.render('admin', { airportcodes, airlinecodes: result1.rows });
         }
         client.end();
