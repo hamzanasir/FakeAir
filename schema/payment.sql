@@ -5,6 +5,6 @@ Create table payment (
   cvv char(3),
   billing_address varchar unique,
 
-  primary key (email, card),
+  primary key (email),
   check (billing_address != null and card != null)
 )
