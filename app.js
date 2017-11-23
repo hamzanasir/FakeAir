@@ -333,7 +333,6 @@ app.post('/book', (req, res) => {
     ssl,
   });
   client.connect();
-
   let text = `INSERT INTO payment
   VALUES ($1, $2, $3, $4, $5)`;
   let values = [
