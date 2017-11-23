@@ -6,5 +6,5 @@ Create table payment (
   billing_address varchar unique,
 
   primary key (email, card),
-  check (billing_address != null and card != null)
+  check (billing_address != null and card != null and billing_address != '' and card != '')
 )
