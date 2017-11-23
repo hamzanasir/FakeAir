@@ -328,7 +328,6 @@ app.post('/book', (req, res) => {
   const passengerInfo = req.body.passenger1;
   const creditInfo = req.body.credit;
   const confirmationNumber = randomstring.generate(7);
-
   let client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl,
@@ -348,7 +347,8 @@ app.post('/book', (req, res) => {
   // callback
   client.query(text, values, (err) => {
     if (err) {
-      console.log(err.stack);
+      req.flash('error', 'Invalid Payment Information');
+      res.redirect('back');
       client.end();
     } else {
       text = `INSERT INTO customer
@@ -365,7 +365,8 @@ app.post('/book', (req, res) => {
 
       client.query(text, values, (err2) => {
         if (err2) {
-          console.log(err2.stack);
+          req.flash('error', 'Database Error: Please review your information.');
+          res.redirect('back');
           client.end();
         } else {
           // Ending first client
@@ -393,44 +394,65 @@ app.post('/book', (req, res) => {
 
             client.query(text, values, (err3) => {
               if (err3) {
-                console.log(err3.stack);
+                req.flash('error', 'Departure Booking Error!');
+                res.redirect('back');
                 client.end();
               } else {
                 client.end();
                 if (flightData.depart.serialid.length === (indexD + 1)) {
                   // Starting return for loop
-                  flightData.return.serialid.forEach((flightR, indexR) => {
-                    client = new Client({
-                      connectionString: process.env.DATABASE_URL,
-                      ssl,
-                    });
+                  if (flightData.return) {
+                    flightData.return.serialid.forEach((flightR, indexR) => {
+                      client = new Client({
+                        connectionString: process.env.DATABASE_URL,
+                        ssl,
+                      });
 
-                    client.connect();
+                      client.connect();
 
-                    text = `INSERT INTO booking
-                    VALUES ($1, $2, $3, 'return', $4, $5)`;
+                      text = `INSERT INTO booking
+                      VALUES ($1, $2, $3, 'return', $4, $5)`;
 
-                    values = [
-                      confirmationNumber,
-                      passengerInfo.email,
-                      flightR,
-                      flightData.return.returnClass,
-                      creditInfo.number,
-                    ];
+                      values = [
+                        confirmationNumber,
+                        passengerInfo.email,
+                        flightR,
+                        flightData.return.returnClass,
+                        creditInfo.number,
+                      ];
 
-                    client.query(text, values, (err4) => {
-                      if (err4) {
-                        console.log(err4.stack);
-                        client.end();
-                      } else {
-                        client.end();
-                        if (flightData.return.serialid.length === (indexR + 1)) {
-                          console.log('Success');
-                          res.send('success!');
+                      client.query(text, values, (err4) => {
+                        if (err4) {
+                          req.flash('error', 'Arrival Booking Error!');
+                          res.redirect('back');
+                          client.end();
+                        } else {
+                          client.end();
+                          if (flightData.return.serialid.length === (indexR + 1)) {
+                            confirmation(passengerInfo.email, confirmationNumber, (error) => {
+                              if (error) {
+                                req.flash('error', 'Booking Confirmed but email not sent.');
+                                res.redirect('/manage');
+                              } else {
+                                req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                                res.redirect('/manage');
+                              }
+                            });
+                          }
                         }
+                      });
+                    });
+                  } else {
+                    confirmation(passengerInfo.email, confirmationNumber, (error) => {
+                      if (error) {
+                        req.flash('error', 'Booking Confirmed but email not sent.');
+                        res.redirect('/manage');
+                      } else {
+                        req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                        res.redirect('/manage');
                       }
                     });
-                  });
+                  }
                 }
               }
             });
