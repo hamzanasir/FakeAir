@@ -328,7 +328,6 @@ app.post('/book', (req, res) => {
   const passengerInfo = req.body.passenger1;
   const creditInfo = req.body.credit;
   const confirmationNumber = randomstring.generate(7);
-
   let client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl,
@@ -399,38 +398,41 @@ app.post('/book', (req, res) => {
                 client.end();
                 if (flightData.depart.serialid.length === (indexD + 1)) {
                   // Starting return for loop
-                  flightData.return.serialid.forEach((flightR, indexR) => {
-                    client = new Client({
-                      connectionString: process.env.DATABASE_URL,
-                      ssl,
-                    });
+                  if (flightData.return) {
+                    flightData.return.serialid.forEach((flightR, indexR) => {
+                      client = new Client({
+                        connectionString: process.env.DATABASE_URL,
+                        ssl,
+                      });
 
-                    client.connect();
+                      client.connect();
 
-                    text = `INSERT INTO booking
-                    VALUES ($1, $2, $3, 'return', $4, $5)`;
+                      text = `INSERT INTO booking
+                      VALUES ($1, $2, $3, 'return', $4, $5)`;
 
-                    values = [
-                      confirmationNumber,
-                      passengerInfo.email,
-                      flightR,
-                      flightData.return.returnClass,
-                      creditInfo.number,
-                    ];
+                      values = [
+                        confirmationNumber,
+                        passengerInfo.email,
+                        flightR,
+                        flightData.return.returnClass,
+                        creditInfo.number,
+                      ];
 
-                    client.query(text, values, (err4) => {
-                      if (err4) {
-                        console.log(err4.stack);
-                        client.end();
-                      } else {
-                        client.end();
-                        if (flightData.return.serialid.length === (indexR + 1)) {
-                          console.log('Success');
-                          res.send('success!');
+                      client.query(text, values, (err4) => {
+                        if (err4) {
+                          console.log(err4.stack);
+                          client.end();
+                        } else {
+                          client.end();
+                          if (flightData.return.serialid.length === (indexR + 1)) {
+                            console.log('Yipee');
+                          }
                         }
-                      }
+                      });
                     });
-                  });
+                  } else {
+                    res.send('Success!');
+                  }
                 }
               }
             });
