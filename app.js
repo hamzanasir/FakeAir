@@ -84,6 +84,54 @@ function parseData(arr) {
   return arr;
 }
 
+function buildStatement(passinfo, credinfo, flightinfo, confirmationnum, returnState) {
+  const params = [];
+  const chunks = [];
+  let i;
+  let flightid;
+  let valueClause;
+  for (i = 0; i < flightinfo.depart.serialid.length; i += 1) {
+    flightid = flightinfo.depart.serialid[i];
+    valueClause = [];
+    params.push(confirmationnum);
+    valueClause.push(`$${params.length}`);
+    params.push(passinfo.email);
+    valueClause.push(`$${params.length}`);
+    params.push(flightid);
+    valueClause.push(`$${params.length}`);
+    params.push('depart');
+    valueClause.push(`$${params.length}`);
+    params.push(flightinfo.depart.departClass);
+    valueClause.push(`$${params.length}`);
+    params.push(credinfo.number);
+    valueClause.push(`$${params.length}`);
+    chunks.push(`(${valueClause.join(', ')})`);
+  }
+  if (returnState) {
+    for (i = 0; i < flightinfo.return.serialid.length; i += 1) {
+      flightid = flightinfo.return.serialid[i];
+      valueClause = [];
+      params.push(confirmationnum);
+      valueClause.push(`$${params.length}`);
+      params.push(passinfo.email);
+      valueClause.push(`$${params.length}`);
+      params.push(flightid);
+      valueClause.push(`$${params.length}`);
+      params.push('return');
+      valueClause.push(`$${params.length}`);
+      params.push(flightinfo.return.returnClass);
+      valueClause.push(`$${params.length}`);
+      params.push(credinfo.number);
+      valueClause.push(`$${params.length}`);
+      chunks.push(`(${valueClause.join(', ')})`);
+    }
+  }
+  return {
+    text: `INSERT INTO booking VALUES ${chunks.join(', ')}`,
+    values: params,
+  };
+}
+
 app.get('/', (req, res) => {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -332,6 +380,9 @@ app.post('/book', (req, res) => {
     connectionString: process.env.DATABASE_URL,
     ssl,
   });
+  console.log(flightData);
+  console.log(passengerInfo);
+  console.log(creditInfo);
   client.connect();
   let text = `INSERT INTO payment
   VALUES ($1, $2, $3, $4, $5)`;
