@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-console */
+/* eslint-disable no-param-reassign, no-console, max-len */
 
 require('dotenv').load();
 const { Client } = require('pg');
@@ -376,15 +376,12 @@ app.post('/book', (req, res) => {
   const passengerInfo = req.body.passenger1;
   const creditInfo = req.body.credit;
   const confirmationNumber = randomstring.generate(7);
-  let client = new Client({
+  const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl,
   });
-  console.log(flightData);
-  console.log(passengerInfo);
-  console.log(creditInfo);
-  client.connect();
 
+  client.connect();
   let text = `INSERT INTO payment
   VALUES ($1, $2, $3, $4, $5)`;
   let values = [
@@ -416,97 +413,26 @@ app.post('/book', (req, res) => {
 
       client.query(text, values, (err2) => {
         if (err2) {
+          console.log(err2.stack);
           req.flash('error', 'Database Error: Please review your information.');
           res.redirect('back');
           client.end();
         } else {
-          // Ending first client
-          client.end();
-
-          // Starting for loop for depart
-          flightData.depart.serialid.forEach((flightD, indexD) => {
-            client = new Client({
-              connectionString: process.env.DATABASE_URL,
-              ssl,
-            });
-
-            client.connect();
-
-            text = `INSERT INTO booking
-            VALUES ($1, $2, $3, 'depart', $4, $5)`;
-
-            values = [
-              confirmationNumber,
-              passengerInfo.email,
-              flightD,
-              flightData.depart.departClass,
-              creditInfo.number,
-            ];
-
-            client.query(text, values, (err3) => {
-              if (err3) {
-                req.flash('error', 'Departure Booking Error!');
-                res.redirect('back');
-                client.end();
-              } else {
-                client.end();
-                if (flightData.depart.serialid.length === (indexD + 1)) {
-                  // Starting return for loop
-                  if (flightData.return) {
-                    flightData.return.serialid.forEach((flightR, indexR) => {
-                      client = new Client({
-                        connectionString: process.env.DATABASE_URL,
-                        ssl,
-                      });
-
-                      client.connect();
-
-                      text = `INSERT INTO booking
-                      VALUES ($1, $2, $3, 'return', $4, $5)`;
-
-                      values = [
-                        confirmationNumber,
-                        passengerInfo.email,
-                        flightR,
-                        flightData.return.returnClass,
-                        creditInfo.number,
-                      ];
-
-                      client.query(text, values, (err4) => {
-                        if (err4) {
-                          req.flash('error', 'Arrival Booking Error!');
-                          res.redirect('back');
-                          client.end();
-                        } else {
-                          client.end();
-                          if (flightData.return.serialid.length === (indexR + 1)) {
-                            confirmation(passengerInfo.email, confirmationNumber, (error) => {
-                              if (error) {
-                                req.flash('error', 'Booking Confirmed but email not sent.');
-                                res.redirect('/manage');
-                              } else {
-                                req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
-                                res.redirect('/manage');
-                              }
-                            });
-                          }
-                        }
-                      });
-                    });
-                  } else {
-                    confirmation(passengerInfo.email, confirmationNumber, (error) => {
-                      if (error) {
-                        req.flash('error', 'Booking Confirmed but email not sent.');
-                        res.redirect('/manage');
-                      } else {
-                        req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
-                        res.redirect('/manage');
-                      }
-                    });
-                  }
+          client.query(buildStatement(passengerInfo, creditInfo, flightData, confirmationNumber, flightData.returnState), (error) => {
+            if (error) {
+              req.flash('error', 'Database Error: Booking Unsuccessful.');
+              res.redirect('back');
+            } else {
+              confirmation(passengerInfo.email, confirmationNumber, (error1) => {
+                if (error1) {
+                  req.flash('error', 'Booking Confirmed but email not sent.');
+                  res.redirect('/manage');
+                } else {
+                  req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                  res.redirect('/manage');
                 }
-              }
-            });
+              });
+            }
           });
         }
       });
