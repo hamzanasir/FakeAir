@@ -325,10 +325,40 @@ app.get('/book', (req, res) => {
 app.post('/book', (req, res) => {
   const flightData = JSON.parse(req.body.data);
   const passengerInfo = req.body.passenger1;
-  const creditInfo = req.body.credit
-  console.log(flightData);
-  console.log(passengerInfo);
-  console.log(creditInfo);
+  const creditInfo = req.body.credit;
+
+  let client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+
+  const text = `INSERT INTO payment
+  VALUES ($1, $2, $3, $4, $5);
+  INSERT INTO customer
+  VALUES ($6, $7, $8, 0, $9, $10, $11)`;
+  const values = [
+    passengerInfo.email,
+    creditInfo.number,
+    creditInfo.type,
+    creditInfo.ccv,
+    creditInfo.billingaddress,
+    passengerInfo.email,
+    passengerInfo.fn,
+    passengerInfo.ln,
+    passengerInfo.homeairport,
+    passengerInfo.address1,
+    passengerInfo.address2,
+  ];
+
+  // callback
+  client.query(text, values, (err) => {
+    if (err) {
+      console.log(err.stack);
+    } else {
+      console.log('Sucess!');
+    }
+  });
 });
 
 app.get('/manage', (req, res) => {

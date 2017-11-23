@@ -34,17 +34,21 @@
                   </div>
                   <div class="form-row">
                     <div class="form-group col-md-6">
-                      <label for="dob<%= i %>">Date of Birth</label>
-                      <input name="passenger<%= i %>[dob]" type="date" class="form-control" id="dob<%= i %>">
+                      <label for="homeairport<%= i %>">Home Airport</label>
+                      <input name="passenger<%= i %>[homeairport]" type="text" class="form-control" id="homeairport<%= i %>" placeholder="Home Airport">
                     </div>
                     <div class="form-group col-md-6">
-                      <label for="passport<%= i %>">Passport Number</label>
-                      <input name="passenger<%= i %>[passportnumber]" type="text" class="form-control" id="passport<%= i %>" placeholder="Passport Number">
+                      <label for="email<%= i %>">Email</label>
+                      <input name="passenger<%= i %>[email]" type="email" class="form-control" id="email<%= i %>" placeholder="Email">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label for="email<%= i %>">Email</label>
-                    <input name="passenger<%= i %>[email]" type="email" class="form-control" id="email<%= i %>" placeholder="Email">
+                    <label for="address1<%= i %>">Address 1</label>
+                    <input name="passenger<%= i %>[address1]" type="text" class="form-control" id="address1<%= i %>" placeholder="Address 1">
+                  </div>
+                  <div class="form-group">
+                    <label for="address2<%= i %>">Address 2</label>
+                    <input name="passenger<%= i %>[address2]" type="text" class="form-control" id="address2<%= i %>" placeholder="Address 2">
                   </div>
                 </div>
                 <div class="modal-footer">
