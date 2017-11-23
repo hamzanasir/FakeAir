@@ -35,6 +35,7 @@
     "express-session": "^1.15.6",
     "nodemailer": "^4.4.0",
     "pg": "7.3.0",
+    "randomstring": "^1.1.5",
     "url": "^0.11.0"
   }
 }
