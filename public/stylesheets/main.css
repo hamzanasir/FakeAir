@@ -2,6 +2,12 @@
   margin-top: 1.5vh;
 }
 
+#manageCard {
+  width: 51vh;
+  margin: 0 auto;
+  margin-top: 5vh;
+}
+
 #credaccord {
   margin-top: 3vh;
 }
