@@ -347,7 +347,8 @@ app.post('/book', (req, res) => {
   // callback
   client.query(text, values, (err) => {
     if (err) {
-      console.log(err.stack);
+      req.flash('error', 'Invalid Payment Information');
+      res.redirect('back');
       client.end();
     } else {
       text = `INSERT INTO customer
@@ -364,7 +365,8 @@ app.post('/book', (req, res) => {
 
       client.query(text, values, (err2) => {
         if (err2) {
-          console.log(err2.stack);
+          req.flash('error', 'Database Error: Please review your information.');
+          res.redirect('back');
           client.end();
         } else {
           // Ending first client
@@ -392,7 +394,8 @@ app.post('/book', (req, res) => {
 
             client.query(text, values, (err3) => {
               if (err3) {
-                console.log(err3.stack);
+                req.flash('error', 'Departure Booking Error!');
+                res.redirect('back');
                 client.end();
               } else {
                 client.end();
@@ -420,18 +423,35 @@ app.post('/book', (req, res) => {
 
                       client.query(text, values, (err4) => {
                         if (err4) {
-                          console.log(err4.stack);
+                          req.flash('error', 'Arrival Booking Error!');
+                          res.redirect('back');
                           client.end();
                         } else {
                           client.end();
                           if (flightData.return.serialid.length === (indexR + 1)) {
-                            console.log('Yipee');
+                            confirmation(passengerInfo.email, confirmationNumber, (error) => {
+                              if (error) {
+                                req.flash('error', 'Booking Confirmed but email not sent.');
+                                res.redirect('/manage');
+                              } else {
+                                req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                                res.redirect('/manage');
+                              }
+                            });
                           }
                         }
                       });
                     });
                   } else {
-                    res.send('Success!');
+                    confirmation(passengerInfo.email, confirmationNumber, (error) => {
+                      if (error) {
+                        req.flash('error', 'Booking Confirmed but email not sent.');
+                        res.redirect('/manage');
+                      } else {
+                        req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                        res.redirect('/manage');
+                      }
+                    });
                   }
                 }
               }
