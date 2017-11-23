@@ -1,76 +1,23 @@
 <% include partials/header %>
+
 <div class="container">
-<div id="searchrow" class="row">
-  <div class="col-md-8">
-    <h2 id="departingheading">Account Setting</h2>
-    <i id="customericon" class="material-icons" style="margin-left: 10px">face</i>
-    <hr style="margin-top: 0.5rem;">
-  </div>
-</div>
-<!-- Put sidebar and the info in class "row", and put both in column -->
-<div class="container">
-  <div class="row">
-      <div class="sidenav">
-        <div class="card-body">
-          <div class="card-text tripBold" style="border-bottom: 1px dotted">Account Info</div><br><br>
-          <div class="card-text tripBold" style="border-bottom: 1px dotted">Addresses</div> <br><br>
-          <div class="card-text tripBold" style="border-bottom: 1px dotted">Payment</div> <br><br>
+  <div id="manageCard" class="card">
+    <h4 class="card-header">Manage Booking</h4>
+    <div class="card-body">
+      <form>
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email address</label>
+          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <small id="emailHelp" class="form-text text-muted">Enter the Email address associated with your booking.</small>
         </div>
-     </div>
-    <div role="tablelist">
-        <h5 class="mb-0">
-          <form class="square">
-            <div class='form-group'>
-              <label for "first_name" id="managelabel"> <h5>First Name</h5>
-                <input type="text" name="first_name" placeholder="First Name" size="20px" style="font-size: 14pt" required/>
-              </label>
-            </div>
-            <div class='form-group'>
-              <label for "last_name" id="managelabel"> <h5>Last Name</h5>
-                <input type="text" name="last_name" placeholder="Last Name" size = "20px" style="font-size: 14pt" required/>
-              </label>
-            </div>
-            <div class='form-group'>
-              <label for "emal" id="managelabel"> <h5>Email</h5>
-                <input type="email" name="email" placeholder="Email" size="45px" required/>
-              </label>
-            </div>
-            <div class="form-group">
-              <label for "country" id="managelabel"> <h5>Country</h5>
-                <input type="text" name="country" placeholder="Country" size="20px" style="font-size: 14pt" required/> <br>
-              </label>
-            </div>
-            <div>
-              <label for "streetNum" "streetName" id="managelabel"> <h5>Street</h5>
-                  <input type="text" name="streetNum" placeholder="Street Number" size="20px" style="font-size: 14pt" required/>
-                  <input type="text" name="streetName" placeholder="Street Name" size = "40px" style="font-size: 14pt" required/>
-              </label> <br>
-            </div>
-            <div class="form-group">
-              <label for "city" id="managelabel"> <h5>City</h5>
-                <input type="text" name="city" placeholder="city" size="20px" style="font-size: 14pt" required/>
-              </label>
-            </div>
-            <div class="form-group">
-              <label for "state" id="managelabel"> <h5>State</h5>
-                <input type="text" name="state" placeholder="state" size="20px" style="font-size: 14pt">
-              </label>
-            </div>
-            <div class="form-group">
-              <label for "zipcode" id="managelabel"> <h5>Zipcode</h5>
-                <input type="text" name="zipcode" placeholder="zipcode" size="20px" style="font-size: 14pt" required/>
-              </label>
-            </div>
-            <button type="submit" class="button">Change</button>
-          </form>
-        </h5>
-      </div>
+        <div class="form-group">
+          <label for="confirmationNum">Confirmation Number</label>
+          <input type="text" class="form-control" id="confirmationNum" placeholder="Confirmation Number">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
     </div>
   </div>
 </div>
-</div>
-</div>
-
-
 
 <% include partials/footer %>
