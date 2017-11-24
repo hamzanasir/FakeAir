@@ -195,6 +195,7 @@ app.post('/admin', (req, res) => {
   });
   client.connect();
   const data = req.body;
+  console.log(data.delete);
   if (data) {
     if (data.airport) {
       const airp = data.airport; // object destructuring not yet supported by node
@@ -272,6 +273,31 @@ app.post('/admin', (req, res) => {
           res.redirect('/admin');
         }
         client.end();
+      });
+    }
+    if (data.delete) {
+      let query = 'DELETE FROM booking';
+      client.query(query, (errs) => {
+        if (errs) {
+          console.log(errs.stack);
+        } else {
+          query = 'DELETE FROM customer';
+          client.query(query, (errs1) => {
+            if (errs) {
+              console.log(errs1.stack);
+            } else {
+              query = 'DELETE FROM payment';
+              client.query(query, (errs2) => {
+                if (errs) {
+                  console.log(errs2.stack);
+                } else {
+                  req.flash('success', 'Succesfully deleted passemger from Database!');
+                  res.redirect('/admin');
+                }
+              });
+            }
+          });
+        }
       });
     }
   }
