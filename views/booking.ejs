@@ -91,6 +91,9 @@
       </div>
     </div>
 
+    <h2>Credit Cards</h2>
+    <hr>
+
     <% card.forEach((mycard, index) => { %>
       <div id="credaccord" role="tablist">
         <div class="card">
@@ -175,7 +178,7 @@
                 </div>
               </div>
 
-              <button type="button" class="btn btn-danger">Delete</button>
+              <button type="button" class="btn btn-danger deleteCard" data-email="<%= customer.email %>" data-card="<%= mycard.card %>">Delete</button>
 
             </div>
           </div>
@@ -239,6 +242,37 @@
           </div>
           </form>
         </div>
+      </div>
+    </div>
+
+    <h2 id="flightTable">Flight Summary</h2>
+
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Flight Number</th>
+              <th scope="col">Flight Type</th>
+              <th scope="col">Route</th>
+              <th scope="col">Date</th>
+              <th scope="col">Time</th>
+              <th scope="col">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% flights.forEach((flight) => { %>
+              <tr>
+                <th scope="row"><%= flight.code %>-<%= flight.number %></th>
+                <td><%= flight.flighttype.charAt(0).toUpperCase() + flight.flighttype.slice(1) %></td>
+                <td><%= flight.depairport %> <i id="arrow" class="material-icons">arrow_forward</i> <%= flight.arrairport %></td>
+                <td><%= flight.date.toDateString() %></td>
+                <td><%= flight.deptime %></td>
+                <td><button type="button" class="btn btn-danger btn-sm deleteFlight" data-confirmation="<%= flight.confirmation %>" data-flightid="<%= flight.flightid %>"><i class="material-icons">delete_forever</i></button></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

@@ -532,8 +532,32 @@ app.get('/booking', (req, res) => {
         } else {
           const card = result1.rows;
           customer.blockaddress = checkBillingAddress(card);
-          res.render('booking', { customer, card });
-          client.end();
+          // Getting booking
+          query = {
+            text: `SELECT *
+                   FROM booking B, flight F
+                   WHERE B.confirmation=$1 AND B.email=$2 AND B.flightID=F.flightID`,
+            values: [booking.confirmation, booking.email],
+          };
+
+          client.query(query, (error2, result2) => {
+            if (error2) {
+              console.log(error2.stack);
+              client.end();
+              req.flash('error', 'Invalid confirmation number');
+              res.redirect('back');
+            } else {
+              const flights = result2.rows;
+              if (flights.length === 0) {
+                client.end();
+                req.flash('error', 'Invalid confirmation number');
+                res.redirect('back');
+              } else {
+                res.render('booking', { customer, card, flights });
+                client.end();
+              }
+            }
+          });
         }
       });
     }
@@ -622,6 +646,56 @@ app.post('/add', (req, res) => {
     }
     client.end();
   });
+});
+
+app.post('/delete', (req, res) => {
+  const card = req.body.card;
+  const booking = req.body.booking;
+
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+
+  if (card) {
+    const query = {
+      text: 'DELETE FROM payment WHERE email=$1 AND card=$2',
+      values: [card.email, card.cardNumber],
+    };
+
+    client.query(query, (error) => {
+      if (error) {
+        console.log(error.stack);
+        req.flash('error', 'Sorry a booking already exists with this credit card.');
+        res.send(true);
+      } else {
+        req.flash('success', 'Deleted credit card!');
+        res.send(true);
+      }
+      client.end();
+    });
+  } else if (booking) {
+    const query = {
+      text: 'DELETE FROM booking WHERE confirmation=$1 AND flightID=$2',
+      values: [booking.confirmation, booking.flightid],
+    };
+
+    client.query(query, (error) => {
+      if (error) {
+        console.log(error.stack);
+        req.flash('error', 'Error deleting booking.');
+        res.send(true);
+      } else {
+        req.flash('success', 'Deleted booking!');
+        res.send(true);
+      }
+      client.end();
+    });
+  } else {
+    client.end();
+    res.send(true);
+  }
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {

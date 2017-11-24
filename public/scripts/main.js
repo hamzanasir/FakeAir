@@ -1,4 +1,4 @@
-/* global document, $, moment, avgrund */
+/* global document, $, moment, avgrund, window */
 
 function showError(err) {
   if (!err) {
@@ -196,5 +196,35 @@ $(document).ready(() => {
 
   $('#avgrundClose').click(() => {
     avgrund.deactivate();
+  });
+
+  $('.deleteCard').click(function () {
+    const email = $(this).data('email');
+    const cardNumber = $(this).data('card');
+    const card = { email, cardNumber };
+
+    $.ajax({
+      type: 'POST',
+      url: '/delete',
+      data: { card },
+      success() {
+        window.location.reload();
+      },
+    });
+  });
+
+  $('.deleteFlight').click(function () {
+    const confirmation = $(this).data('confirmation');
+    const flightid = $(this).data('flightid');
+    const booking = { confirmation, flightid };
+
+    $.ajax({
+      type: 'POST',
+      url: '/delete',
+      data: { booking },
+      success() {
+        window.location.reload();
+      },
+    });
   });
 });

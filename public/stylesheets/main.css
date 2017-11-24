@@ -1,6 +1,10 @@
 #passengerBtn {
   margin-top: 1.5vh;
-  margin-bottom: 3vh;
+  margin-bottom: 2vh;
+}
+
+#flightTable {
+  margin-top: 2vh;
 }
 
 #addcredit {
