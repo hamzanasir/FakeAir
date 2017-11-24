@@ -1,0 +1,246 @@
+<% include partials/header %>
+
+  <div class="container">
+    <h2 id="passDisplay">Passenger Details</h2>
+    <hr>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="nameDisplay"><strong>Name</strong></label>
+        <p id="nameDisplay"><%= customer.first_name %> <%= customer.last_name %></p>
+      </div>
+      <div class="col-md-6">
+        <label for="emailDisplay"><strong>Email</strong></label>
+        <p id="emailDisplay"><%= customer.email %></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="homeairportDisplay"><strong>Home Airport</strong></label>
+        <p id="homeairportDisplay"><%= customer.home_airport %></p>
+      </div>
+      <div class="col-md-6">
+        <label for="mileageDisplay"><strong>Miles Earned</strong></label>
+        <p id="mileageDisplay"><%= customer.mileages %></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="address1Display"><strong>Address 1</strong></label>
+        <p id="address1Display"><%= customer.address1 %></p>
+      </div>
+      <div class="col-md-12">
+        <label for="address2Display"><strong>Address 2</strong></label>
+        <p id="address2Display"><%= customer.address2 %></p>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <button id="passengerBtn" type="button" class="btn btn-warning btn-lg btn-block" data-toggle="modal" data-target="#passmodal">
+          Edit
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="passmodal" tabindex="-1" role="dialog" aria-labelledby="passmodalTitle" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="passmodalTitle">Passenger Details</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/edit" method="post">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="firstname">First Name</label>
+                  <input name="passenger[fn]" value="<%= customer.first_name %>" type="text" class="form-control" id="firstname" placeholder="First Name">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="lastname">Last Name</label>
+                  <input name="passenger[ln]" value="<%= customer.last_name %>" type="text" class="form-control" id="lastname" placeholder="Last Name">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="homeairport">Home Airport</label>
+                  <input name="passenger[homeairport]" value="<%= customer.home_airport %>" type="text" class="form-control" id="homeairport" placeholder="Home Airport">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="email">Email</label>
+                  <input name="passenger[email]" value="<%= customer.email %>" readonly="readonly" type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="address1">Address 1</label>
+                <input name="passenger[address1]" value="<%= customer.address1 %>" <%= ((customer.blockaddress === 'address1') || (customer.blockaddress === 'both')) ? 'readonly':'' %> type="text" class="form-control" id="address1" placeholder="Address 1">
+              </div>
+              <div class="form-group">
+                <label for="address2">Address 2</label>
+                <input name="passenger[address2]" value="<%= customer.address2 %>" <%= ((customer.blockaddress === 'address2') || (customer.blockaddress === 'both')) ? 'readonly':'' %> type="text" class="form-control" id="address2" placeholder="Address 2">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Edit</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <% card.forEach((mycard, index) => { %>
+      <div id="credaccord" role="tablist">
+        <div class="card">
+          <div class="card-header" role="tab" id="heading<%= index+1 %>">
+            <h5 class="mb-0">
+              <p data-toggle="collapse" href="#collapse<%= index+1 %>" aria-expanded="true" aria-controls="collapse<%= index+1 %>">
+                Credit Card #<%= index+1 %>
+              </p>
+            </h5>
+          </div>
+          <div id="collapse<%= index+1 %>" class="collapse" role="tabpanel" aria-labelledby="heading<%= index+1 %>" data-parent="#accordion">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="cardtypeDisplay"><strong>Card Type</strong></label>
+                  <p id="cardtypeDisplay"><%= mycard.cardtype.charAt(0).toUpperCase() + mycard.cardtype.slice(1) %></p>
+                </div>
+                <div class="col-md-4">
+                  <label for="cardnumDisplay"><strong>Card Number</strong></label>
+                  <p id="cardnumDisplay"><%= mycard.card %></p>
+                </div>
+                <div class="col-md-4">
+                  <label for="ccvDisplay"><strong>Card CVV</strong></label>
+                  <p id="ccvDisplay"><%= mycard.cvv %></p>
+                </div>
+                <div class="col-md-12">
+                  <label for="billingaddrDIsplay"><strong>Billing Address</strong></label>
+                  <p id="billingaddrDIsplay"><%= mycard.billing_address %></p>
+                </div>
+              </div>
+              <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#cardEditModal<%= index+1 %>">Edit</button>
+
+              <!-- Modal -->
+              <div class="modal fade" id="cardEditModal<%= index+1 %>" tabindex="-1" role="dialog" aria-labelledby="cardEditModalLabel<%= index+1 %>" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="cardEditModalLabel<%= index+1 %>">Edit Card</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form action="/edit" method="post">
+                        <div class="form-check form-check-inline">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="credit[type]" id="inlineRadio1" value="visa" <%= mycard.cardtype === 'visa' ? 'checked': '' %>>Visa
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="credit[type]" id="inlineRadio2" value="discover" <%= mycard.cardtype === 'discover' ? 'checked': '' %>>Discover
+                          </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="credit[type]" id="inlineRadio3" value="mastercard" <%= mycard.cardtype === 'mastercard' ? 'checked': '' %>>MasterCard
+                          </label>
+                        </div>
+                        <div class="form-group">
+                          <label for="creditnumber">Credit Card Number</label>
+                          <input name="credit[number]" value="<%= mycard.card %>" type="text" class="form-control" id="creditnumber" placeholder="Card Number">
+                        </div>
+                        <input type="hidden" name="credit[prevnumber]" value="<%= mycard.card %>">
+                        <input type="hidden" name="credit[email]" value="<%= customer.email %>">
+                        <div class="form-row">
+                          <div class="form-group col-md-4">
+                            <label for="securitycode">CVV</label>
+                            <input name="credit[ccv]" value="<%= mycard.cvv %>" type="number" class="form-control" id="securitycode" placeholder="CVV">
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="billing">Billing Address</label>
+                          <input name="credit[billingaddress]" value="<%= mycard.billing_address %>" type="text" class="form-control" id="billing" placeholder="Billing Address">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-danger">Delete</button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+
+    <div id="addcredit" class="row">
+      <div class="col-md-6 offset-md-3">
+        <button type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#addcreditcardmodal">
+          Add Credit Card
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="addcreditcardmodal" tabindex="-1" role="dialog" aria-labelledby="addcreditcardmodalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addcreditcardmodalLabel">Add new credit card</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/add" method="post">
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="credit[type]" id="inlineRadio1" value="visa">Visa
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="credit[type]" id="inlineRadio2" value="discover">Discover
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <label class="form-check-label">
+                  <input class="form-check-input" type="radio" name="credit[type]" id="inlineRadio3" value="mastercard">MasterCard
+                </label>
+              </div>
+              <div class="form-group">
+                <label for="creditnumber">Credit Card Number</label>
+                <input name="credit[number]" type="text" class="form-control" id="creditnumber" placeholder="Card Number">
+              </div>
+              <input type="hidden" name="credit[email]" value="<%= customer.email %>">
+              <div class="form-row">
+                <div class="form-group col-md-4">
+                  <label for="securitycode">CVV</label>
+                  <input name="credit[ccv]" type="number" class="form-control" id="securitycode" placeholder="CVV">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="billing">Billing Address</label>
+                <input name="credit[billingaddress]" type="text" class="form-control" id="billing" placeholder="Billing Address">
+              </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Add</button>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<% include partials/footer %>

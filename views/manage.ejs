@@ -4,15 +4,15 @@
   <div id="manageCard" class="card">
     <h4 class="card-header">Manage Booking</h4>
     <div class="card-body">
-      <form>
+      <form action="/booking" method="get">
         <div class="form-group">
           <label for="exampleInputEmail1">Email address</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+          <input type="email" name="booking[email]" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
           <small id="emailHelp" class="form-text text-muted">Enter the Email address associated with your booking.</small>
         </div>
         <div class="form-group">
           <label for="confirmationNum">Confirmation Number</label>
-          <input type="text" class="form-control" id="confirmationNum" placeholder="Confirmation Number">
+          <input type="text" name="booking[confirmation]" class="form-control" id="confirmationNum" placeholder="Confirmation Number">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>

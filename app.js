@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-console, max-len */
+/* eslint-disable no-param-reassign, no-console, max-len, prefer-destructuring */
 
 require('dotenv').load();
 const { Client } = require('pg');
@@ -132,6 +132,20 @@ function buildStatement(passinfo, credinfo, flightinfo, confirmationnum, returnS
   };
 }
 
+function checkBillingAddress(cardArray) {
+  let i;
+  for (i = 0; i < cardArray.length; i += 1) {
+    if (cardArray[i].billing_address === cardArray[i].address1 && cardArray[i].billing_address === cardArray[i].address2) {
+      return 'both';
+    } else if (cardArray[i].billing_address === cardArray[i].address1) {
+      return 'address1';
+    } else if (cardArray[i].billing_address === cardArray[i].address2) {
+      return 'address2';
+    }
+  }
+  return false;
+}
+
 app.get('/', (req, res) => {
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
@@ -179,7 +193,6 @@ app.get('/admin', (req, res) => {
         if (err1) {
           console.log(err.stack); // eslint-disable-line no-console
         } else {
-          console.log(airportcodes, result1.rows);
           res.render('admin', { airportcodes, airlinecodes: result1.rows });
         }
         client.end();
@@ -442,6 +455,138 @@ app.post('/book', (req, res) => {
 
 app.get('/manage', (req, res) => {
   res.render('manage');
+});
+
+app.get('/booking', (req, res) => {
+  const booking = req.query.booking;
+
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+
+  let query = {
+    text: 'SELECT * FROM customer WHERE email=$1',
+    values: [booking.email],
+  };
+
+  client.query(query, (err, result) => {
+    if (err || !result.rows[0]) {
+      if (err) {
+        console.log(err.stack);
+      }
+      client.end();
+      req.flash('error', 'Email does not match any of our records.');
+      res.redirect('/manage');
+    } else {
+      const customer = result.rows[0];
+      // Getting customer payment information
+      query = {
+        text: `select *
+               from customer, payment
+               where $1 = payment.email`,
+        values: [booking.email],
+      };
+      client.query(query, (error1, result1) => {
+        if (error1) {
+          console.log(error1.stack);
+          client.end();
+          req.flash('error', 'Error getting payment information for user');
+          res.redirect('back');
+        } else {
+          const card = result1.rows;
+          customer.blockaddress = checkBillingAddress(card);
+          res.render('booking', { customer, card });
+          client.end();
+        }
+      });
+    }
+  });
+});
+
+app.post('/edit', (req, res) => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+
+  if (req.body.passenger) {
+    const customer = req.body.passenger;
+    const query = {
+      text: `update customer
+             set first_name=$1, last_name=$2, home_airport=$3, address1=$4, address2=$5
+             where email=$6`,
+      values: [customer.fn, customer.ln, customer.homeairport, customer.address1, customer.address2, customer.email],
+    };
+
+    client.query(query, (error) => {
+      if (error) {
+        console.log(error.stack);
+        req.flash('error', 'Error while editing data. Please try again.');
+        res.redirect('back');
+      } else {
+        req.flash('success', 'Successfully edited data.');
+        res.redirect('back');
+      }
+      client.end();
+    });
+  }
+
+  if (req.body.credit) {
+    const creditcard = req.body.credit;
+    const query = {
+      text: `update payment
+             set card=$1, cardtype=$2, cvv=$3, billing_address=$4
+             where email=$5 and card=$6`,
+      values: [
+        creditcard.number,
+        creditcard.type,
+        creditcard.ccv,
+        creditcard.billingaddress,
+        creditcard.email,
+        creditcard.prevnumber,
+      ],
+    };
+
+    client.query(query, (error) => {
+      if (error) {
+        console.log(error.stack);
+        req.flash('error', 'Error while editing data. Please try again.');
+        res.redirect('back');
+      } else {
+        req.flash('success', 'Successfully edited data.');
+        res.redirect('back');
+      }
+      client.end();
+    });
+  }
+});
+
+app.post('/add', (req, res) => {
+  const credit = req.body.credit;
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+  const query = {
+    text: 'INSERT INTO payment VALUES ($1, $2, $3, $4, $5)',
+    values: [credit.email, credit.number, credit.type, credit.ccv, credit.billingaddress],
+  };
+
+  client.query(query, (error) => {
+    if (error) {
+      console.log(error.stack);
+      req.flash('error', 'Could not add card to database.');
+      res.redirect('back');
+    } else {
+      req.flash('success', 'Successfully added credit card!');
+      res.redirect('back');
+    }
+    client.end();
+  });
 });
 
 app.listen(process.env.PORT, process.env.IP, () => {

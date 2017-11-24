@@ -1,15 +1,20 @@
 #passengerBtn {
   margin-top: 1.5vh;
+  margin-bottom: 3vh;
+}
+
+#addcredit {
+  margin-top: 3vh;
+}
+
+#passDisplay {
+  margin: 3vh;
 }
 
 #manageCard {
   width: 51vh;
   margin: 0 auto;
   margin-top: 5vh;
-}
-
-#credaccord {
-  margin-top: 3vh;
 }
 
 #admin-row {
