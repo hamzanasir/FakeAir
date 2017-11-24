@@ -292,18 +292,28 @@ app.post('/admin', (req, res) => {
       client.query(query, (errs) => {
         if (errs) {
           console.log(errs.stack);
+          client.end();
+          req.flash('error', 'Error while deleting booking');
+          res.redirect('/admin');
         } else {
           query = 'DELETE FROM customer';
           client.query(query, (errs1) => {
-            if (errs) {
+            if (errs1) {
               console.log(errs1.stack);
+              client.end();
+              req.flash('error', 'Error while deleting customer');
+              res.redirect('/admin');
             } else {
               query = 'DELETE FROM payment';
               client.query(query, (errs2) => {
-                if (errs) {
+                if (errs2) {
                   console.log(errs2.stack);
+                  client.end();
+                  req.flash('error', 'Error while deleting payment');
+                  res.redirect('/admin');
                 } else {
-                  req.flash('success', 'Succesfully deleted passemger from Database!');
+                  client.end();
+                  req.flash('success', 'Successfully deleted all passengers from database!');
                   res.redirect('/admin');
                 }
               });
