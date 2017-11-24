@@ -208,7 +208,6 @@ app.post('/admin', (req, res) => {
   });
   client.connect();
   const data = req.body;
-  console.log(data.delete);
   if (data) {
     if (data.airport) {
       const airp = data.airport; // object destructuring not yet supported by node
