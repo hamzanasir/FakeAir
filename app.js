@@ -429,7 +429,17 @@ app.post('/book', (req, res) => {
                   res.redirect('/manage');
                 } else {
                   req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
-                  res.redirect('/manage');
+                  text = `UPDATE customer
+                  SET mileages = (SELECT sum(f.miles) AS sum
+                  FROM booking b, flight f, customer c
+                  WHERE b.flightID = f.flightID AND b.email = c.email)`;
+                  client.query(text, (err9) => {
+                    if (err9) {
+                      console.log(err9.stack);
+                    } else {
+                      res.redirect('/manage');
+                    }
+                  });
                 }
               });
             }
