@@ -374,7 +374,8 @@ app.get('/search', (req, res) => {
     FROM connectflight
     WHERE (array_to_string(route, ',') like $1 and array_to_string(route, ',') like $2)
        and (dateL like $3)
-       and path_len > $4`,
+       and path_len > $4
+    ORDER BY path_len`,
     values: [
       `${userData.departureairport}%`,
       `%${userData.arrivalairport}`,
