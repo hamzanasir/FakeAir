@@ -470,13 +470,14 @@ app.post('/book', (req, res) => {
             if (error) {
               req.flash('error', 'Database Error: Booking Unsuccessful.');
               res.redirect('back');
+              client.end();
             } else {
               confirmation(passengerInfo.email, confirmationNumber, (error1) => {
                 if (error1) {
                   req.flash('error', 'Booking Confirmed but email not sent.');
                   res.redirect('/manage');
+                  client.end();
                 } else {
-                  req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
                   text = `UPDATE customer
                   SET mileages = (SELECT sum(f.miles) AS sum
                   FROM booking b, flight f, customer c
@@ -484,8 +485,19 @@ app.post('/book', (req, res) => {
                   client.query(text, (err9) => {
                     if (err9) {
                       console.log(err9.stack);
-                    } else {
+                      req.flash('error', 'Could not update mileage but booking confirmed.');
                       res.redirect('/manage');
+                      client.end();
+                    } else {
+                      req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                      res.redirect(url.format({
+                        pathname: '/booking',
+                        query: {
+                          email: passengerInfo.email,
+                          confirmation: confirmationNumber,
+                        },
+                      }));
+                      client.end();
                     }
                   });
                 }
@@ -503,7 +515,12 @@ app.get('/manage', (req, res) => {
 });
 
 app.get('/booking', (req, res) => {
-  const booking = req.query.booking;
+  let booking;
+  if (!req.query.booking) {
+    booking = { email: req.query.email, confirmation: req.query.confirmation };
+  } else {
+    booking = req.query.booking;
+  }
 
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
