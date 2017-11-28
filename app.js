@@ -524,7 +524,7 @@ app.post('/book', (req, res) => {
     // callback
     client.query(text, values, (err) => {
       if (err) {
-        req.flash('error', 'Payment Method ALready Exists');
+        req.flash('error', 'Payment Method already exists');
         res.redirect('back');
         client.end();
       } else {
