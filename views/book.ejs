@@ -35,7 +35,8 @@
                   <div class="form-row">
                     <div class="form-group col-md-6">
                       <label for="homeairport<%= i %>">Home Airport</label>
-                      <input name="passenger<%= i %>[homeairport]" type="text" class="form-control" id="homeairport<%= i %>" placeholder="Home Airport">
+                      <select name="passenger<%= i %>[homeairport]" class="form-control homeairport" id="homeairport<%= i %>">
+                      </select>
                     </div>
                     <div class="form-group col-md-6">
                       <label for="email<%= i %>">Email</label>
@@ -150,4 +151,5 @@
 </aside>
 
 <script src="/scripts/avgrund.js"></script>
+<script src="/scripts/book.js"></script>
 <% include partials/footer %>

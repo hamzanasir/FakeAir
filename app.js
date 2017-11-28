@@ -726,6 +726,24 @@ app.post('/delete', (req, res) => {
   }
 });
 
+app.post('/airportcodes', (req, res) => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+  const query = 'SELECT iata FROM airport';
+  client.query(query, (err, airport) => {
+    if (err) {
+      res.send(false);
+      console.log(err.stack); // eslint-disable-line no-console
+    } else {
+      res.send(airport.rows);
+    }
+    client.end();
+  });
+});
+
 app.listen(process.env.PORT, process.env.IP, () => {
   console.log('The FakeAir Server Has Started!'); // eslint-disable-line no-console
 });
