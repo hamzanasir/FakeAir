@@ -1,5 +1,11 @@
 <% include partials/avgrundHeader %>
 
+<div id="userMessage" class='container'>
+    <div class="alert alert-success" role="alert">
+        Welcome back user!
+    </div>
+</div>
+
 <div class="container">
   <div id="searchrow" class="row">
     <div class="col-md-8">
@@ -40,9 +46,10 @@
                     </div>
                     <div class="form-group col-md-6">
                       <label for="email<%= i %>">Email</label>
-                      <input name="passenger<%= i %>[email]" type="email" class="form-control" id="email<%= i %>" placeholder="Email">
+                      <input name="passenger<%= i %>[email]" type="email" class="form-control email" id="email<%= i %>" placeholder="Email">
                     </div>
                   </div>
+                  <input type="hidden" class="userExists" name="passenger<%= i %>[userexists]" value="false">
                   <div class="form-group">
                     <label for="address1<%= i %>">Address 1</label>
                     <input name="passenger<%= i %>[address1]" type="text" class="form-control" id="address1<%= i %>" placeholder="Address 1">

@@ -1,4 +1,4 @@
-/* eslint-disable no-param-reassign, no-console, max-len, prefer-destructuring */
+/* eslint-disable no-param-reassign, no-console, max-len, prefer-destructuring, no-lonely-if */
 
 require('dotenv').load();
 const { Client } = require('pg');
@@ -431,84 +431,144 @@ app.post('/book', (req, res) => {
   });
 
   client.connect();
-  let text = `INSERT INTO payment
-  VALUES ($1, $2, $3, $4, $5)`;
-  let values = [
-    passengerInfo.email,
-    creditInfo.number,
-    creditInfo.type,
-    creditInfo.ccv,
-    creditInfo.billingaddress,
-  ];
+  if (passengerInfo.userexists === 'false') {
+    let text = `INSERT INTO payment
+    VALUES ($1, $2, $3, $4, $5)`;
+    let values = [
+      passengerInfo.email,
+      creditInfo.number,
+      creditInfo.type,
+      creditInfo.ccv,
+      creditInfo.billingaddress,
+    ];
 
-  // callback
-  client.query(text, values, (err) => {
-    if (err) {
-      req.flash('error', 'Invalid Payment Information');
-      res.redirect('back');
-      client.end();
-    } else {
-      text = `INSERT INTO customer
-      VALUES ($1, $2, $3, 0, $4, $5, $6)`;
+    // callback
+    client.query(text, values, (err) => {
+      if (err) {
+        req.flash('error', 'Invalid Payment Information');
+        res.redirect('back');
+        client.end();
+      } else {
+        text = `INSERT INTO customer
+        VALUES ($1, $2, $3, 0, $4, $5, $6)`;
 
-      values = [
-        passengerInfo.email,
-        passengerInfo.fn,
-        passengerInfo.ln,
-        passengerInfo.homeairport,
-        passengerInfo.address1,
-        passengerInfo.address2,
-      ];
+        values = [
+          passengerInfo.email,
+          passengerInfo.fn,
+          passengerInfo.ln,
+          passengerInfo.homeairport,
+          passengerInfo.address1,
+          passengerInfo.address2,
+        ];
 
-      client.query(text, values, (err2) => {
-        if (err2) {
-          console.log(err2.stack);
-          req.flash('error', 'Database Error: Please review your information.');
-          res.redirect('back');
-          client.end();
-        } else {
-          client.query(buildStatement(passengerInfo, creditInfo, flightData, confirmationNumber, flightData.returnState), (error) => {
-            if (error) {
-              req.flash('error', 'Database Error: Booking Unsuccessful.');
-              res.redirect('back');
-              client.end();
-            } else {
-              confirmation(passengerInfo.email, confirmationNumber, (error1) => {
-                if (error1) {
-                  req.flash('error', 'Booking Confirmed but email not sent.');
-                  res.redirect('/manage');
-                  client.end();
-                } else {
-                  text = `UPDATE customer
-                  SET mileages = (SELECT sum(f.miles) AS sum
-                  FROM booking b, flight f, customer c
-                  WHERE b.flightID = f.flightID AND b.email = c.email)`;
-                  client.query(text, (err9) => {
-                    if (err9) {
-                      console.log(err9.stack);
-                      req.flash('error', 'Could not update mileage but booking confirmed.');
-                      res.redirect('/manage');
-                      client.end();
-                    } else {
-                      req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
-                      res.redirect(url.format({
-                        pathname: '/booking',
-                        query: {
-                          email: passengerInfo.email,
-                          confirmation: confirmationNumber,
-                        },
-                      }));
-                      client.end();
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-      });
-    }
-  });
+        client.query(text, values, (err2) => {
+          if (err2) {
+            console.log(err2.stack);
+            req.flash('error', 'Database Error: Please review your information.');
+            res.redirect('back');
+            client.end();
+          } else {
+            client.query(buildStatement(passengerInfo, creditInfo, flightData, confirmationNumber, flightData.returnState), (error) => {
+              if (error) {
+                req.flash('error', 'Database Error: Booking Unsuccessful.');
+                res.redirect('back');
+                client.end();
+              } else {
+                confirmation(passengerInfo.email, confirmationNumber, (error1) => {
+                  if (error1) {
+                    req.flash('error', 'Booking Confirmed but email not sent.');
+                    res.redirect('/manage');
+                    client.end();
+                  } else {
+                    text = `UPDATE customer
+                    SET mileages = (SELECT sum(f.miles) AS sum
+                    FROM booking b, flight f, customer c
+                    WHERE b.flightID = f.flightID AND b.email = c.email)`;
+                    client.query(text, (err9) => {
+                      if (err9) {
+                        console.log(err9.stack);
+                        req.flash('error', 'Could not update mileage but booking confirmed.');
+                        res.redirect('/manage');
+                        client.end();
+                      } else {
+                        req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                        res.redirect(url.format({
+                          pathname: '/booking',
+                          query: {
+                            email: passengerInfo.email,
+                            confirmation: confirmationNumber,
+                          },
+                        }));
+                        client.end();
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  } else {
+    let text = `INSERT INTO payment
+    VALUES ($1, $2, $3, $4, $5)`;
+    const values = [
+      passengerInfo.email,
+      creditInfo.number,
+      creditInfo.type,
+      creditInfo.ccv,
+      creditInfo.billingaddress,
+    ];
+
+    // callback
+    client.query(text, values, (err) => {
+      if (err) {
+        req.flash('error', 'Payment Method ALready Exists');
+        res.redirect('back');
+        client.end();
+      } else {
+        client.query(buildStatement(passengerInfo, creditInfo, flightData, confirmationNumber, flightData.returnState), (error) => {
+          if (error) {
+            req.flash('error', 'Database Error: Booking Unsuccessful.');
+            res.redirect('back');
+            client.end();
+          } else {
+            confirmation(passengerInfo.email, confirmationNumber, (error1) => {
+              if (error1) {
+                req.flash('error', 'Booking Confirmed but email not sent.');
+                res.redirect('/manage');
+                client.end();
+              } else {
+                text = `UPDATE customer
+                    SET mileages = (SELECT sum(f.miles) AS sum
+                    FROM booking b, flight f, customer c
+                    WHERE b.flightID = f.flightID AND b.email = c.email)`;
+                client.query(text, (err9) => {
+                  if (err9) {
+                    console.log(err9.stack);
+                    req.flash('error', 'Could not update mileage but booking confirmed.');
+                    res.redirect('/manage');
+                    client.end();
+                  } else {
+                    req.flash('success', 'Booking Confirmed and Confirmation Email sent.');
+                    res.redirect(url.format({
+                      pathname: '/booking',
+                      query: {
+                        email: passengerInfo.email,
+                        confirmation: confirmationNumber,
+                      },
+                    }));
+                    client.end();
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  }
 });
 
 app.get('/manage', (req, res) => {
@@ -739,6 +799,28 @@ app.post('/airportcodes', (req, res) => {
       console.log(err.stack); // eslint-disable-line no-console
     } else {
       res.send(airport.rows);
+    }
+    client.end();
+  });
+});
+
+app.post('/verifyuser', (req, res) => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl,
+  });
+  client.connect();
+  const query = 'SELECT email FROM customer WHERE email=$1';
+  client.query(query, [req.body.email], (err, airport) => {
+    if (err) {
+      res.send(false);
+      console.log(err.stack); // eslint-disable-line no-console
+    } else {
+      if (airport.rows.length <= 0) {
+        res.send(false);
+      } else {
+        res.send(true);
+      }
     }
     client.end();
   });

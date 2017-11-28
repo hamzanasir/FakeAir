@@ -61,6 +61,11 @@
   cursor: pointer;
 }
 
+#userMessage {
+  display: none;
+  margin-top: 3vh;
+}
+
 .chartdiv {
   margin-top: 2vh;
   width: 100%;
