@@ -349,8 +349,6 @@ app.get('/search', (req, res) => {
   }
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
-  console.log(userData);
-  console.log(orderBy);
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl,
@@ -377,13 +375,12 @@ app.get('/search', (req, res) => {
     WHERE (array_to_string(route, ',') like $1 and array_to_string(route, ',') like $2)
        and (dateL like $3)
        and path_len > $4
-    ORDER BY $5`,
+    ORDER BY ${orderBy}`,
     values: [
       `${userData.departureairport}%`,
       `%${userData.arrivalairport}`,
       `${userData.departuredate}%`,
       parseInt(userData.connections, 10),
-      orderBy,
     ],
   };
 
@@ -399,7 +396,6 @@ app.get('/search', (req, res) => {
         `%${userData.departureairport}`,
         `${userData.returndate}%`,
         parseInt(userData.connections, 10),
-        orderBy,
       ];
       client.query(query, (err1, result1) => {
         if (err1) {
