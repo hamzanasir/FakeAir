@@ -342,13 +342,15 @@ app.get('/search', (req, res) => {
   const arrAirport = userData.arrivalairport;
   const returnState = userData.return === 'on';
   const seats = parseInt(userData.seats, 10);
+  const orderBy = userData.orderby === 'on' ? 'path_len' : 'econpricesum';
   if (Object.keys(userData).length === 0 && userData.constructor === Object) {
     res.render('search', { searchResults, returnState, seats });
     return;
   }
   userData.departureairport = depAirport.slice((depAirport.indexOf('(') + 1), depAirport.indexOf(')'));
   userData.arrivalairport = arrAirport.slice((arrAirport.indexOf('(') + 1), arrAirport.indexOf(')'));
-
+  console.log(userData);
+  console.log(orderBy);
   const client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl,
@@ -375,12 +377,13 @@ app.get('/search', (req, res) => {
     WHERE (array_to_string(route, ',') like $1 and array_to_string(route, ',') like $2)
        and (dateL like $3)
        and path_len > $4
-    ORDER BY path_len`,
+    ORDER BY $5`,
     values: [
       `${userData.departureairport}%`,
       `%${userData.arrivalairport}`,
       `${userData.departuredate}%`,
       parseInt(userData.connections, 10),
+      orderBy,
     ],
   };
 
@@ -396,6 +399,7 @@ app.get('/search', (req, res) => {
         `%${userData.departureairport}`,
         `${userData.returndate}%`,
         parseInt(userData.connections, 10),
+        orderBy,
       ];
       client.query(query, (err1, result1) => {
         if (err1) {

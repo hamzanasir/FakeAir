@@ -20,12 +20,19 @@ $(window).on('load', () => {
     off: 'One-way',
   });
 
-  $('#toggle-one').parent().parent().css({ marginTop: '2.8vh' });
   $('#toggle-one').parent().css({ width: '100%' });
 
   $('#toggle-one').change(() => {
     $('#returning-blk').toggle(($('#toggle-one').is(':checked')));
   });
+
+  $('#toggle-two').bootstrapToggle({
+    on: 'Path-Length',
+    off: 'Price',
+  });
+
+  $('#toggle-two').parent().css({ width: '100%' });
+
   $('#searchBtn').click(() => {
     $('#loadingOverlay').addClass('loading');
     $('#loadingOverlay').show();

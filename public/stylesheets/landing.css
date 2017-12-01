@@ -46,23 +46,6 @@ body {
   }
 }
 
-/*For custom styling of buttons if ever needed*/
-
-/*.btn-success {
-  background-color: #ad0000;
-  border-color: #ad0000;
-}
-
-.btn-success:hover, .btn-success:active, .btn-success:focus, .btn-success:focus:active:visited {
-    color: #fff;
-    background-color: #820000;
-    border-color: #820000;
-}
-
-.btn-success.focus, .btn-info:focus {
-    box-shadow: 0 0 0 0.2rem rgba(229,64,64,0.5);
-}*/
-
 .slideshow {
   position: fixed;
   width: 100%;
