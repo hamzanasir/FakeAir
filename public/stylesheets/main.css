@@ -1,6 +1,7 @@
 #passengerBtn {
   margin-top: 1.5vh;
   margin-bottom: 2vh;
+  cursor: pointer;
 }
 
 #flightTable {
