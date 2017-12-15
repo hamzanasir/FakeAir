@@ -44,6 +44,9 @@
           integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
           crossorigin="anonymous">
         </script>
+        <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/MorphSVGPlugin.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.3/TweenMax.min.js"></script>
+        <script src="/scripts/loading.js"></script>
         <!-- Global site tag (gtag.js) - Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-108231632-2"></script>
         <script>
@@ -57,7 +60,20 @@
     </head>
     <body>
 
-      <div id="loadingOverlay" class="loading">Loading&#8230;</div>
+      <div id="loadingOverlay" class="loading">
+        <svg class="mainSVG" viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+             <circle id="dot"  cx="0" cy="0" r="5" fill="#000"/>
+          </defs>
+
+            <circle id="mainCircle" fill="none" stroke="none" stroke-width="2" stroke-miterlimit="10" cx="400" cy="300" r="70"/>
+            <circle id="circlePath" fill="none" stroke="none" stroke-width="2" stroke-miterlimit="10" cx="400" cy="300" r="80"/>
+
+            <g id="mainContainer" >
+          <path id="plane" fill="#000"  d="M38.1,19.6c0.2-0.2,0.3-0.5,0.3-0.7s-0.1-0.6-0.3-0.7c-1.2-1-2.8-1.6-4.4-1.6l-8.7,0L12.2,0L8.2,0l6.3,16.5	l-5.9,0c-0.5,0-1.1,0.1-1.6,0.4L3.1,11L0,11l3.1,7.9L0,26.7l3.1,0l3.9-5.9c0.5,0.3,1,0.4,1.6,0.4l5.9,0L8.2,37.7h3.9l13-16.5l8.7,0	C35.4,21.2,36.9,20.6,38.1,19.6"/>
+            </g>
+          </svg>
+      </div>
 
      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
        <div style="max-width: 86vw;" class="container">
