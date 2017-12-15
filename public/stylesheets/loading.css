@@ -17,3 +17,13 @@ svg {
   margin-left: 25.5vw;
   visibility: hidden;
 }
+
+@media only screen and (max-width: 500px) {
+  svg {
+    width: 161vw;
+    height: 161vw;
+    margin-top: -2.5vh;
+    margin-left: -30vw;
+    visibility: hidden;
+  }
+}
